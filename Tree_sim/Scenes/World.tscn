@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/World.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/World.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 [ext_resource path="res://assets/dirt.png" type="Texture" id=4]
 [ext_resource path="res://assets/sky.png" type="Texture" id=5]
@@ -65,6 +65,13 @@ remote_path = NodePath("../../Camera2D")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, 1 )
 current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Camera2D"]
+margin_left = -111.0
+margin_top = -58.0
+margin_right = -53.0
+margin_bottom = -28.0
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 51, 46 )
