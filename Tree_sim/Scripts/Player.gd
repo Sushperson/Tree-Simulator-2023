@@ -5,7 +5,7 @@ extends Node2D
 var pos_x = 0
 var pos_y = 0
 var move_dir = Vector2(0,1)
-
+var last_move_dir = Vector2(0,1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,3 +27,8 @@ func move():
 	pos_x += int(move_dir.x)
 	pos_y += int(move_dir.y)
 	get_node("Tick_clock").start(1)
+	last_move_dir = Vector2(move_dir.x, move_dir.y)
+
+
+
+

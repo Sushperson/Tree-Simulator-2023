@@ -15,4 +15,8 @@ func _ready():
 func _process(delta):
 	var player = get_node("Player")
 	player.position = Vector2(player.pos_x * tile_size, player.pos_y * tile_size)
+	set_player_tile()
 	
+func set_player_tile():
+	var player = get_node("Player")
+	set_cell(player.pos_x, player.pos_y, player_tile_id)
