@@ -30,5 +30,8 @@ func move():
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
 
 
-
-
+func player_tile_id():
+	if move_dir == last_move_dir:
+		player_tile_id = 0
+	elif move_dir + last_move_dir == Vector2(0,0):
+		
