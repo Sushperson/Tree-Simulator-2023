@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 # Declare member variables here.
-var hp_bar = 100
+var hp_bar = 10
 
 
 # Called when the node enters the scene tree for the first time.

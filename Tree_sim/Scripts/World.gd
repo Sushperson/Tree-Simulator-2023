@@ -123,6 +123,8 @@ func tick():
 			resource_yoink()
 			
 			get_node("BG_Grid").generate_tiles(get_visible_rect())
+			
+			game_over()
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
@@ -167,11 +169,12 @@ func get_visible_rect():
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
-	HpLabel.set_text("HP: " + str(HUD.hp_bar))
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
-	else:
-		HUD.hp_bar -= 1
+	HUD.hp_bar -= 1
+	HpLabel.set_text("HP: " + str(HUD.hp_bar))
+	
+	
 
 
 func visual_hp():
@@ -228,3 +231,10 @@ func resource_yoink():
 	if tilemap.get_cell(player.pos_x, player.pos_y) == 1:
 		HUD.hp_bar += 5
 		player.remaining_current_root_tiles += 2
+
+func game_over():
+	var HUD = get_node("HUD")
+	
+	if HUD.hp_bar <= 0:
+		get_node("Tick_clock").stop()
+		
