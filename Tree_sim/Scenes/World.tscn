@@ -1,5 +1,4 @@
-[gd_scene load_steps=22 format=2]
-
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=2]
@@ -15,6 +14,7 @@
 [ext_resource path="res://assets/tilemap_sprit/boden1.png" type="Texture" id=13]
 [ext_resource path="res://assets/tilemap_sprit/boden3.png" type="Texture" id=14]
 [ext_resource path="res://assets/tilemap_sprit/boden2.png" type="Texture" id=15]
+[ext_resource path="res://assets/tilemap_sprit/boden1_grass.png" type="Texture" id=16]
 [ext_resource path="res://assets/sky.png" type="Texture" id=18]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=19]
 
@@ -161,6 +161,20 @@
 5/shape_one_way_margin = 0.0
 5/shapes = [  ]
 5/z_index = 0
+6/name = "boden1_grass.png 6"
+6/texture = ExtResource( 16 )
+6/tex_offset = Vector2( 0, 0 )
+6/modulate = Color( 1, 1, 1, 1 )
+6/region = Rect2( 0, 0, 64, 64 )
+6/tile_mode = 0
+6/occluder_offset = Vector2( 0, 0 )
+6/navigation_offset = Vector2( 0, 0 )
+6/shape_offset = Vector2( 0, 0 )
+6/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+6/shape_one_way = false
+6/shape_one_way_margin = 0.0
+6/shapes = [  ]
+6/z_index = 0
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )

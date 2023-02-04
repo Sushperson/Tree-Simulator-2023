@@ -37,7 +37,6 @@ func ist_wurzel_fit():
 		in_spiel_modi = spiel_modi.back_wurzeln
 	
 func tick():
-    get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	get_node("Tick_clock").start(tick_length)
 	if in_spiel_modi == spiel_modi.wurzeln:
 		var player = get_node("Player")
@@ -57,8 +56,9 @@ func tick():
 			var last_pos = player.path.pop_back()
 			player.position = Vector2(last_pos[0] * tile_size + tile_size/2, last_pos[1]* tile_size + tile_size/2)
 
-print(get_node("Camera2D").position)
-    get_node("Camera2D/Label").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
+	print(get_node("Camera2D").position)
+	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
+
 
 
 # Set a root-tile to the tile that was just left by the player
