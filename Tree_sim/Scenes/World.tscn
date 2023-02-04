@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/wurzel/grade_v.png" type="Texture" id=4]
 [ext_resource path="res://assets/wurzel/kurve_lu.png" type="Texture" id=5]
 [ext_resource path="res://assets/wurzel/kurve_lr.png" type="Texture" id=6]
-[ext_resource path="res://Scripts/TileMap.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/RootGrid.gd" type="Script" id=7]
 [ext_resource path="res://assets/wurzel/grade_h.png" type="Texture" id=8]
 [ext_resource path="res://assets/wurzel/kurve_ru.png" type="Texture" id=9]
 [ext_resource path="res://assets/wurzel/kurve_lo.png" type="Texture" id=10]
@@ -145,9 +145,11 @@ margin_bottom = -28.0
 position = Vector2( 51, 46 )
 texture = ExtResource( 3 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="RootGrid" type="TileMap" parent="."]
 z_index = -5
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
 script = ExtResource( 7 )
+
+[node name="Tick_clock" type="Timer" parent="."]
