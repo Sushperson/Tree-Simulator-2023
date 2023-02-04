@@ -81,27 +81,31 @@ func tick():
 		get_node("BG_Grid").generate_tiles(get_visible_rect())
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
-		player.remaining_current_root_tiles += 1
 		
 		if len(player.path) <= 1:
 			change_mode(spiel_modi.verloren)
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
-		#elif(target_cell_free(player.get_pos_vec(), player.move_dir)):
-		#	pass
+		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and player.remaining_current_root_tiles > 0):
+			player.move()
+			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
+			player.remaining_current_root_tiles -= 1
+			change_mode(spiel_modi.wurzeln)
 		else:
+			player.remaining_current_root_tiles += 1
+			player.move_dir = Vector2(0,0)
 			player.path.pop_back()
 			player.pos_x = player.path[-1][0]
 			player.pos_y = player.path[-1][1]
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
 		
 	print(get_node("Camera2D").position)
-	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
+	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()
 
 func target_cell_free(pos, dir):
-	return not get_node("BG_Grid").get_cell((pos + dir).x, (pos + dir).y)
+	return (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1)
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
@@ -125,6 +129,7 @@ func health():
 		HUD.hp_bar = 100
 	else:
 		HUD.hp_bar -= 1
+
 
 func visual_hp():
 	var HUD = get_node("HUD")
@@ -172,6 +177,7 @@ func player_char():
 		
 	elif in_spiel_modus == spiel_modi.wurzeln:
 		sprite.texture = load("res://assets/wurzel/ende_o.png")
+		sprite.modulate.a = 1
 		if player.last_move_dir == Vector2(0,1):
 			sprite.set_rotation(0)
 		elif player.last_move_dir == Vector2(1,0):
