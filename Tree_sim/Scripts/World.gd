@@ -2,19 +2,20 @@ extends Node2D
 
 
 # Declare member variables here. Examples:
-export var tile_size = 16
+export var tile_size = 32
 # var b = "text"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	get_node("TileMap").cell_size.x = tile_size
+	get_node("TileMap").cell_size.x = tile_size
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player = get_node("Player")
-	player.position = Vector2(player.pos_x * tile_size, player.pos_y * tile_size)
+	player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
 	set_player_tile()
 	get_node("Camera2D/Label").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 
@@ -22,7 +23,7 @@ func _process(delta):
 func set_player_tile():
 	var player = get_node("Player")
 	var tilemap = get_node("TileMap")
-	tilemap.set_cell(player.pos_x, player.pos_y, player.player_tile_id())
+	tilemap.set_cell(player.pos_x, player.pos_y, player.last_tile)
 
 
 func get_visible_rect():

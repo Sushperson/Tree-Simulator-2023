@@ -6,6 +6,8 @@ var pos_x = 0
 var pos_y = 0
 var move_dir = Vector2(0,1)
 var last_move_dir = Vector2(0,1)
+var last_tile = 0
+var path = [[pos_x,pos_y]]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,22 +28,22 @@ func _process(delta):
 func move():
 	pos_x += int(move_dir.x)
 	pos_y += int(move_dir.y)
+	path.append([pos_x, pos_y])
 	get_node("Tick_clock").start(1)
+	player_tile_id()
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
 
 
 func player_tile_id():
-	var player_tile_id = 0
 	if move_dir == last_move_dir:
-		player_tile_id = 0
+		last_tile = 0
 	elif move_dir + last_move_dir == Vector2(1,1):
-		player_tile_id = 1
+		last_tile = 1
 	elif move_dir + last_move_dir == Vector2(-1,-1):
-		player_tile_id = 2
+		last_tile = 2
 	elif move_dir + last_move_dir == Vector2(-1,1):
-		player_tile_id = 3
+		last_tile = 3
 	elif move_dir + last_move_dir == Vector2(1,-1):
-		player_tile_id = 4
-	return player_tile_id
+		last_tile = 4
 		
 		
