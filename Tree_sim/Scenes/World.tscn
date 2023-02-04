@@ -145,7 +145,7 @@ margin_bottom = -28.0
 position = Vector2( 51, 46 )
 texture = ExtResource( 3 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="RootGrid" type="TileMap" parent="."]
 z_index = -5
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
