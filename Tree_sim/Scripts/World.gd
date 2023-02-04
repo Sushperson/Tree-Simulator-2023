@@ -68,6 +68,34 @@ func change_mode(mode):
 			rootgrid.set_cell(player.pos_x, player.pos_y, 9)
 		elif player.last_move_dir == Vector2(0,-1):
 			rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+			
+	elif(mode == spiel_modi.wurzeln):
+		var grade_v = 0
+		var grade_h = 1
+		var kurve_lo = 2
+		var kurve_lu = 3
+		var kurve_ro = 4
+		var kurve_ru = 5
+		var kreuzung = 11
+		var t_links = 12
+		var t_oben = 13
+		var t_rechts = 14
+		var t_unten = 15
+		
+		var rootgrid = get_node("RootGrid")
+		var player = get_node("Player")
+		print(str(rootgrid.get_cell(player.path[-2][0], player.path[-2][1])))
+		print(str(player.move_dir))
+		if (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_v and player.move_dir == Vector2(-1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(0,1)):
+			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_links)
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,-1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ro and player.move_dir == Vector2(-1,0)):
+			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_oben)
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_v and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ro and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ru and player.move_dir == Vector2(0,1)):
+			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_rechts)
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ru and player.move_dir == Vector2(-1,0)):
+			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_unten)
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
+			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], kreuzung)
 	
 func _process(delta):
 	if Input.is_action_pressed("pause"):
@@ -179,9 +207,6 @@ func player_char():
 	if in_spiel_modus == spiel_modi.back_wurzeln:
 		sprite.texture = load("res://assets/wurzel_highlight.png")
 		sprite.modulate.a = 0.3
-		
-			
-		
 	elif in_spiel_modus == spiel_modi.wurzeln:
 		sprite.texture = load("res://assets/wurzel/ende_o.png")
 		sprite.modulate.a = 1
