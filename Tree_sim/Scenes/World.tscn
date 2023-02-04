@@ -206,6 +206,8 @@ remote_path = NodePath("../../Camera2D")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 16, 16 )
 current = true
+smoothing_enabled = true
+smoothing_speed = 0.8
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 51, 46 )
