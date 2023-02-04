@@ -151,7 +151,8 @@ func tick():
 	player_char()
 
 func target_cell_free(pos, dir):
-	return (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1)
+	return (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1)\
+		and get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
