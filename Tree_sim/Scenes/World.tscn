@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/tilemap_sprit/boden1_grass.png" type="Texture" id=16]
 [ext_resource path="res://assets/sky.png" type="Texture" id=18]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=19]
+[ext_resource path="res://assets/hp_pixel.png" type="Texture" id=20]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grade_h.png 0"
@@ -214,17 +215,24 @@ script = ExtResource( 12 )
 script = ExtResource( 19 )
 
 [node name="Score" type="Label" parent="HUD"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_left = -5.0
+margin_top = -3.0
+margin_right = 35.0
+margin_bottom = 11.0
 
 [node name="HpBar" type="Label" parent="HUD"]
-margin_left = 13.0
-margin_top = 11.0
-margin_right = 73.0
-margin_bottom = 25.0
+margin_left = 22.0
+margin_top = 18.0
+margin_right = 82.0
+margin_bottom = 32.0
 
 [node name="DebugCamSize" type="Label" parent="HUD"]
 margin_left = 15.0
 margin_top = 45.0
 margin_right = 73.0
 margin_bottom = 75.0
+
+[node name="HpFill" type="Sprite" parent="HUD"]
+position = Vector2( 32.75, 9.25 )
+scale = Vector2( 52.5, 9.5 )
+texture = ExtResource( 20 )
