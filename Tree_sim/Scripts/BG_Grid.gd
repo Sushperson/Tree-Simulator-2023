@@ -1,5 +1,8 @@
 extends TileMap
 
+var dirt_tile_ids = [0,2,4]
+var grass_tile_ids = [6,7]
+
 # generate background tiles for each coordinate in the given rectangle,
 # if there isn't already a tile at a given coordinate
 func generate_tiles(vis_rect):
@@ -11,10 +14,10 @@ func generate_tiles(vis_rect):
 func generate_tile(x, y):
 	if(get_cell(x, y) == -1):
 		var tile = -1
-		if(y < 0):
+		if(y < 0): #sky
 			tile = 5
-		elif(y == 0):
-			tile = 6
-		elif(y > 0):
-			tile = 0
+		elif(y == 0): #grass
+			tile = grass_tile_ids[randi() % grass_tile_ids.size()]
+		elif(y > 0): #dirt
+			tile = dirt_tile_ids[randi() % dirt_tile_ids.size()]
 		set_cell(x, y, tile)

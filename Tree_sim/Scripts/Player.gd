@@ -8,7 +8,7 @@ var move_dir = Vector2(0,1)
 var last_move_dir = Vector2(0,1)
 var last_tile = 0
 var path:Array = [[pos_x,pos_y],[pos_x,pos_y]]
-var leben = 10
+var remaining_current_root_tiles = 20
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -40,7 +40,6 @@ enum richtungen{
 	UntenLinks,
 	ObenRechts,
 	UntenRechts,
-	
 	
 }
 
@@ -81,12 +80,7 @@ func player_tile_id():
 			else:
 				last_tile = richtungen.UntenRechts
 				
-	
-	
-	
-		
 
-	
 		
 func get_last_x():
 	return path[-2][0]

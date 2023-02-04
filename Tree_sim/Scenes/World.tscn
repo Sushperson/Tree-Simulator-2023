@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/wurzel/grade_h.png" type="Texture" id=8]
 [ext_resource path="res://assets/wurzel/kurve_ro.png" type="Texture" id=9]
 [ext_resource path="res://assets/wurzel/kurve_lo.png" type="Texture" id=10]
+[ext_resource path="res://assets/tilemap_sprit/boden2_grass.png" type="Texture" id=11]
 [ext_resource path="res://Scripts/BG_Grid.gd" type="Script" id=12]
 [ext_resource path="res://assets/tilemap_sprit/boden1.png" type="Texture" id=13]
 [ext_resource path="res://assets/tilemap_sprit/boden3.png" type="Texture" id=14]
@@ -106,6 +107,7 @@
 5/z_index = 0
 
 [sub_resource type="TileSet" id=2]
+resource_local_to_scene = true
 0/name = "boden1.png 0"
 0/texture = ExtResource( 13 )
 0/tex_offset = Vector2( 0, 0 )
@@ -176,6 +178,20 @@
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
 6/z_index = 0
+7/name = "boden2_grass.png 7"
+7/texture = ExtResource( 11 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 0, 0, 64, 64 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shape_offset = Vector2( 0, 0 )
+7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+7/shape_one_way = false
+7/shape_one_way_margin = 0.0
+7/shapes = [  ]
+7/z_index = 0
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )

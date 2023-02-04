@@ -19,7 +19,7 @@ enum spiel_modi{
 	skilltree,
 	verloren
 }
-var in_spiel_modi: int = spiel_modi.wurzeln
+var in_spiel_modus: int = spiel_modi.wurzeln
 
 
 
@@ -44,27 +44,27 @@ func _ready():
 #	pass
 func ist_wurzel_fit():
 	var player = get_node("Player")
-	player.leben -= 1
-	print(player.leben)
-	if player.leben <= 0:
-		in_spiel_modi = spiel_modi.back_wurzeln
+	player.remaining_current_root_tiles -= 1
+	print(player.remaining_current_root_tiles)
+	if player.remaining_current_root_tiles <= 0:
+		in_spiel_modus = spiel_modi.back_wurzeln
 	
 	
 func _process(delta):
 	if Input.is_action_pressed("pause"):
-		if not in_spiel_modi == spiel_modi.pause:
-			in_spiel_modi = spiel_modi.pause
+		if not in_spiel_modus == spiel_modi.pause:
+			in_spiel_modus = spiel_modi.pause
 		else:
-			in_spiel_modi = spiel_modi.wurzeln
-	if in_spiel_modi == spiel_modi.back_wurzeln:
+			in_spiel_modus = spiel_modi.wurzeln
+	if in_spiel_modus == spiel_modi.back_wurzeln:
 		if Input.get_action_strength("confirm") :
-			in_spiel_modi = spiel_modi.wurzeln
+			in_spiel_modus = spiel_modi.wurzeln
 		
 	
 func tick():
 	get_node("Tick_clock").start(tick_length)
-		
-	if in_spiel_modi == spiel_modi.wurzeln:
+
+	if in_spiel_modus == spiel_modi.wurzeln:
 		var player = get_node("Player")
 		player.move()
 		player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
@@ -75,14 +75,11 @@ func tick():
 		health()
 		visual_hp()
 		score_update()
-	elif in_spiel_modi == spiel_modi.back_wurzeln:
-		if Input.get_action_strength("confirm") or Input.get_action_strength("down") :
-			in_spiel_modi = spiel_modi.wurzeln
-		
+	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		var player = get_node("Player")
-		player.leben += 1
+		player.remaining_current_root_tiles += 1
 		if len(player.path) <= 1:
-			in_spiel_modi = spiel_modi.verloren
+			in_spiel_modus = spiel_modi.verloren
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
 		var last_pos = player.path.pop_back()
