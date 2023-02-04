@@ -43,19 +43,31 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-func ist_wurzel_fit():
+func can_root_move():
 	var player = get_node("Player")
-	if player.remaining_current_root_tiles <= 0:
+	if player.remaining_current_root_tiles <= 0 or not target_cell_free(player.get_pos_vec(), player.move_dir):
 		change_mode(spiel_modi.back_wurzeln)
 		return false
 	else:
 		player.remaining_current_root_tiles -= 1
 		return true
 
+# change the gamemode
 func change_mode(mode):
 	in_spiel_modus = mode
 	if(mode == spiel_modi.back_wurzeln):
-		get_node("Player").move_dir = Vector2(0,0)
+		var player = get_node("Player")
+		player.move_dir = Vector2(0,0)
+		
+		var rootgrid = get_node("RootGrid")
+		if player.last_move_dir == Vector2(0,1):
+			rootgrid.set_cell(player.pos_x, player.pos_y, 10)
+		elif player.last_move_dir == Vector2(1,0):
+			rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+		elif player.last_move_dir == Vector2(-1,0):
+			rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+		elif player.last_move_dir == Vector2(0,-1):
+			rootgrid.set_cell(player.pos_x, player.pos_y, 8)
 	
 func _process(delta):
 	if Input.is_action_pressed("pause"):
@@ -64,13 +76,14 @@ func _process(delta):
 		else:
 			change_mode(spiel_modi.wurzeln)
 		
-	
+# process a single game step
 func tick():
 	get_node("Tick_clock").start(tick_length)
 	var player = get_node("Player")
 
 	if in_spiel_modus == spiel_modi.wurzeln:
-		if ist_wurzel_fit():
+		if can_root_move():
+			
 			#move the player
 			player.move()
 			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
@@ -79,6 +92,7 @@ func tick():
 			health()
 			visual_hp()
 			score_update()
+			resource_yoink()
 			
 			get_node("BG_Grid").generate_tiles(get_visible_rect())
 
@@ -88,7 +102,7 @@ func tick():
 			change_mode(spiel_modi.verloren)
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
-		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and ist_wurzel_fit()):
+		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and can_root_move()):
 			player.move()
 			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
 			change_mode(spiel_modi.wurzeln)
@@ -166,15 +180,7 @@ func player_char():
 		sprite.texture = load("res://assets/wurzel_highlight.png")
 		sprite.modulate.a = 0.3
 		
-		if player.remaining_current_root_tiles <= 0:
-			if player.last_move_dir == Vector2(0,1):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
-			elif player.last_move_dir == Vector2(1,0):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
-			elif player.last_move_dir == Vector2(-1,0):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
-			elif player.last_move_dir == Vector2(0,-1):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+			
 		
 	elif in_spiel_modus == spiel_modi.wurzeln:
 		sprite.texture = load("res://assets/wurzel/ende_o.png")
@@ -189,3 +195,11 @@ func player_char():
 			sprite.set_rotation(PI)
 			
 			
+func resource_yoink():
+	var player = get_node("Player")
+	var tilemap = get_node("TileMap")
+	var HUD = get_node("HUD")
+	
+	if tilemap.get_cell(player.pos_x, player.pos_y) == 1:
+		HUD.hp_bar += 5
+		player.remaining_current_root_tiles += 2
