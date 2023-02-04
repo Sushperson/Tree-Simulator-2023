@@ -8,21 +8,24 @@ var move_dir = Vector2(0,1)
 var last_move_dir = Vector2(0,1)
 var last_tile = 0
 var path:Array = [[pos_x,pos_y],[pos_x,pos_y]]
-var remaining_current_root_tiles = 20
+var remaining_current_root_tiles = 10
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var input_dir = Vector2(
+	var input_dir = get_input_dir()
+	if input_dir != -move_dir and input_dir.length() == 1:
+		move_dir = input_dir
+
+func get_input_dir():
+	return Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
 		Input.get_action_strength("down") - Input.get_action_strength("up")
 	)
-	if input_dir != -move_dir and input_dir.length() == 1:
-		move_dir = input_dir
-	
+
+# move the player on the grid according to current move_dir
 func move():
 	pos_x += int(move_dir.x)
 	pos_y += int(move_dir.y)
@@ -30,6 +33,9 @@ func move():
 	path.append([pos_x, pos_y])
 	player_tile_id()
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
+
+func get_pos_vec():
+	return Vector2(pos_x, pos_y)
 
 
 enum richtungen{
