@@ -34,6 +34,7 @@ func _ready():
 	get_node("HUD/HpFill").position.y = hp_bar_pos_y
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
+	get_node("HUD/HpFill").modulate = Color(0,255,0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -101,8 +102,16 @@ func visual_hp():
 	var HpFill_scale = HpFill.get_scale()
 	var HpFill_position = HpFill.get_position()
 	
+	
 	HpFill.scale.x = hp_bar_scale_x * HUD.hp_bar
 	HpFill.scale.y = hp_bar_scale_y
 	
 	HpFill.position.x = hp_bar_pos_x + (HpFill_scale.x / 2)
 	HpFill.position.y = hp_bar_pos_y
+	
+	if HUD.hp_bar > 50:
+		HpFill.modulate = Color(0,255,0)
+	elif HUD.hp_bar > 25:
+		HpFill.modulate = Color(255,140,0)
+	else:
+		HpFill.modulate = Color(255,0,0)
