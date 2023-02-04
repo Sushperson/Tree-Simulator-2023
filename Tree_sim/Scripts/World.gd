@@ -4,6 +4,12 @@ extends Node2D
 # Declare member variables here. Examples:
 export var tile_size = 64
 export var tick_length = 1.0
+
+
+export var hp_bar_pos_x = 20
+export var hp_bar_pos_y = 25
+export var hp_bar_scale_x = 1
+export var hp_bar_scale_y = 25
 # var b = "text"
 
 
@@ -17,6 +23,10 @@ func _ready():
 	get_node("BG_Grid").generate_tiles(get_visible_rect())
 	get_node("Tick_clock").connect("timeout", self, "tick")
 	get_node("Tick_clock").start(tick_length)
+	get_node("HUD/HpFill").position.x = hp_bar_pos_x + 50
+	get_node("HUD/HpFill").position.y = hp_bar_pos_y
+	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
+	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -35,6 +45,7 @@ func tick():
 	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	
 	health()
+	visual_hp()
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
@@ -59,3 +70,16 @@ func health():
 		HUD.hp_bar = 100
 	else:
 		HUD.hp_bar -= 1
+
+func visual_hp():
+	var HUD = get_node("HUD")
+	var HpLabel = get_node("HUD/HpBar")
+	var HpFill = get_node("HUD/HpFill")
+	var HpFill_scale = HpFill.get_scale()
+	var HpFill_position = HpFill.get_position()
+	
+	HpFill.scale.x = hp_bar_scale_x * HUD.hp_bar
+	HpFill.scale.y = hp_bar_scale_y
+	
+	HpFill.position.x = hp_bar_pos_x + (HpFill_scale.x / 2)
+	HpFill.position.y = hp_bar_pos_y
