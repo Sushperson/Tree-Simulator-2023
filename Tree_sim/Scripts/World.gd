@@ -125,6 +125,7 @@ func tick():
 			visual_hp()
 			score_update()
 			resource_yoink()
+			game_over()
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
