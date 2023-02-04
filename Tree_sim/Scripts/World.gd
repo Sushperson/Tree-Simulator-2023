@@ -16,7 +16,8 @@ enum spiel_modi{
 	wurzeln,
 	back_wurzeln,
 	pause,
-	skilltree
+	skilltree,
+	verloren
 }
 var in_spiel_modi: int = spiel_modi.wurzeln
 
@@ -48,8 +49,21 @@ func ist_wurzel_fit():
 	if player.leben <= 0:
 		in_spiel_modi = spiel_modi.back_wurzeln
 	
+	
+func _process(delta):
+	if Input.is_action_pressed("pause"):
+		if not in_spiel_modi == spiel_modi.pause:
+			in_spiel_modi = spiel_modi.pause
+		else:
+			in_spiel_modi = spiel_modi.wurzeln
+	if in_spiel_modi == spiel_modi.back_wurzeln:
+		if Input.get_action_strength("confirm") :
+			in_spiel_modi = spiel_modi.wurzeln
+		
+	
 func tick():
 	get_node("Tick_clock").start(tick_length)
+		
 	if in_spiel_modi == spiel_modi.wurzeln:
 		var player = get_node("Player")
 		player.move()
@@ -62,14 +76,20 @@ func tick():
 		visual_hp()
 		score_update()
 	elif in_spiel_modi == spiel_modi.back_wurzeln:
-		if Input.get_action_strength("confirm"):
+		if Input.get_action_strength("confirm") or Input.get_action_strength("down") :
 			in_spiel_modi = spiel_modi.wurzeln
-		else:
-			var player = get_node("Player")
-			player.leben += 1
-			var last_pos = player.path.pop_back()
-			player.position = Vector2(last_pos[0] * tile_size + tile_size/2, last_pos[1]* tile_size + tile_size/2)
-
+		
+		var player = get_node("Player")
+		player.leben += 1
+		if len(player.path) <= 1:
+			in_spiel_modi = spiel_modi.verloren
+			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
+			print('verloren')
+		var last_pos = player.path.pop_back()
+		player.pos_x = last_pos[0]
+		player.pos_y = last_pos[1]
+		player.position = Vector2(last_pos[0] * tile_size + tile_size/2, last_pos[1]* tile_size + tile_size/2)
+	
 	print(get_node("Camera2D").position)
 	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	

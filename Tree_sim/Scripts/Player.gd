@@ -8,7 +8,7 @@ var move_dir = Vector2(0,1)
 var last_move_dir = Vector2(0,1)
 var last_tile = 0
 var path:Array = [[pos_x,pos_y],[pos_x,pos_y]]
-var leben = 20
+var leben = 10
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -58,36 +58,28 @@ func player_tile_id():
 		if verederung_move_dir == Vector2(-1,-1):
 			if last_move_dir.x == -1:
 				last_tile = richtungen.ObenRechts
-				print("1",last_tile)
 			else:
 				last_tile = richtungen.UntenLinks
-				print("2",last_tile)
 		elif verederung_move_dir == Vector2(-1,1):
 			if last_move_dir.x == -1:
 				last_tile = richtungen.UntenRechts
-				print("3",last_tile)
 				
 			else:
 				last_tile = richtungen.ObenLinks
-				print("4",last_tile)
 				
 		elif verederung_move_dir == Vector2(1,1):
 			if last_move_dir.x == 1:
 				last_tile = richtungen.UntenLinks
-				print("5",last_tile)
 				
 			else:
 				last_tile = richtungen.ObenRechts
-				print("6",last_tile)
 				
 		elif verederung_move_dir == Vector2(1,-1):
 			if last_move_dir.x == 1:
 				last_tile = richtungen.ObenLinks
-				print("7",last_tile)
 				
 			else:
 				last_tile = richtungen.UntenRechts
-				print("8",last_tile)
 				
 	
 	
