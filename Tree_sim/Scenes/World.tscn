@@ -54,7 +54,7 @@
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
-tile_size = null
+tile_size = 32
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )

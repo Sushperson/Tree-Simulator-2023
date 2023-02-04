@@ -31,7 +31,17 @@ func move():
 
 
 func player_tile_id():
+	var player_tile_id = 0
 	if move_dir == last_move_dir:
 		player_tile_id = 0
-	elif move_dir + last_move_dir == Vector2(0,0):
+	elif move_dir + last_move_dir == Vector2(1,1):
+		player_tile_id = 1
+	elif move_dir + last_move_dir == Vector2(-1,-1):
+		player_tile_id = 2
+	elif move_dir + last_move_dir == Vector2(-1,1):
+		player_tile_id = 3
+	elif move_dir + last_move_dir == Vector2(1,-1):
+		player_tile_id = 4
+	return player_tile_id
+		
 		

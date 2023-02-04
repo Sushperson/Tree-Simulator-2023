@@ -21,7 +21,8 @@ func _process(delta):
 	
 func set_player_tile():
 	var player = get_node("Player")
-	set_cell(player.pos_x, player.pos_y, player_tile_id)
+	var tilemap = get_node("TileMap")
+	tilemap.set_cell(player.pos_x, player.pos_y, player.player_tile_id())
 
 
 func get_visible_rect():
