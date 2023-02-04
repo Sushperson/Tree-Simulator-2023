@@ -30,6 +30,7 @@
 [ext_resource path="res://assets/wurzel/kreuzung.png" type="Texture" id=28]
 [ext_resource path="res://assets/wurzel/t_r.png" type="Texture" id=29]
 [ext_resource path="res://assets/wurzel/t_u.png" type="Texture" id=30]
+[ext_resource path="res://Scripts/RO_Grid.gd" type="Script" id=31]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grade_h.png 0"
@@ -417,7 +418,7 @@ resource_local_to_scene = true
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
-tick_length = 0.67
+tick_length = 0.322
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )
@@ -477,8 +478,9 @@ position = Vector2( 32.75, 9.25 )
 scale = Vector2( 52.5, 9.5 )
 texture = ExtResource( 20 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="RO_Grid" type="TileMap" parent="."]
 z_index = -4
 tile_set = SubResource( 3 )
 format = 1
 tile_data = PoolIntArray( 262142, 2, 0, 262143, 2, 0, 196608, 2, 2, 327676, 2, 0, 327677, 2, 0, 327678, 2, 65543, 327679, 2, 6, 262144, 2, 131074, 393212, 2, 131072, 393213, 2, 7, 393214, 2, 0, 393215, 2, 0, 458749, 2, 131072, 458750, 2, 0, 458751, 2, 131074 )
+script = ExtResource( 31 )

@@ -25,11 +25,12 @@ var in_spiel_modus: int = spiel_modi.wurzeln
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	get_node("RootGrid").cell_size.x = tile_size
 	get_node("RootGrid").cell_size.y = tile_size
 	get_node("BG_Grid").cell_size.x = tile_size
 	get_node("BG_Grid").cell_size.y = tile_size
-	get_node("BG_Grid").generate_tiles(get_visible_rect())
+	generate_tiles(get_visible_rect())
 	get_node("Tick_clock").connect("timeout", self, "tick")
 	get_node("Tick_clock").start(tick_length)
 	get_node("HUD/HpFill").position.x = hp_bar_pos_x + 50
@@ -106,7 +107,10 @@ func _process(delta):
 		
 # process a single game step
 func tick():
+	#restart tick-clock
 	get_node("Tick_clock").start(tick_length)
+	#generate tiles
+	generate_tiles(get_visible_rect())
 	var player = get_node("Player")
 
 	if in_spiel_modus == spiel_modi.wurzeln:
@@ -121,10 +125,6 @@ func tick():
 			visual_hp()
 			score_update()
 			resource_yoink()
-			
-			get_node("BG_Grid").generate_tiles(get_visible_rect())
-			
-			game_over()
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
@@ -210,6 +210,7 @@ func player_char():
 	if in_spiel_modus == spiel_modi.back_wurzeln:
 		sprite.texture = load("res://assets/wurzel_highlight.png")
 		sprite.modulate.a = 0.3
+
 	elif in_spiel_modus == spiel_modi.wurzeln:
 		sprite.texture = load("res://assets/wurzel/ende_o.png")
 		sprite.modulate.a = 1
@@ -221,11 +222,22 @@ func player_char():
 			sprite.set_rotation(PI/2)
 		elif player.last_move_dir == Vector2(0,-1):
 			sprite.set_rotation(PI)
-			
+
+# generate background and RO tiles for each coordinate in the given rectangle,
+# if there isn't already a tile at a given coordinate
+func generate_tiles(vis_rect):
+	var bg_grid = get_node("BG_Grid")
+	var ro_grid = get_node("RO_Grid")
+	for x in range(vis_rect.position.x, vis_rect.end.x+1):
+		for y in range(vis_rect.position.y, vis_rect.end.y+1):
+			if(bg_grid.get_cell(x, y) == -1):
+				ro_grid.generate_tile(x,y)
+				bg_grid.generate_tile(x,y)
+
 			
 func resource_yoink():
 	var player = get_node("Player")
-	var tilemap = get_node("TileMap")
+	var tilemap = get_node("RO_Grid")
 	var HUD = get_node("HUD")
 	
 	if tilemap.get_cell(player.pos_x, player.pos_y) == 1:
