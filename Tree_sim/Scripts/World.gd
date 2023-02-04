@@ -6,6 +6,7 @@ export var tile_size = 32
 # var b = "text"
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("TileMap").cell_size.x = tile_size
@@ -22,8 +23,9 @@ func _process(delta):
 	
 func set_player_tile():
 	var player = get_node("Player")
+	var last_pos = player.path[-2]
 	var tilemap = get_node("TileMap")
-	tilemap.set_cell(player.pos_x, player.pos_y, player.last_tile)
+	tilemap.set_cell(last_pos[0], last_pos[1], player.last_tile)
 
 
 func get_visible_rect():
