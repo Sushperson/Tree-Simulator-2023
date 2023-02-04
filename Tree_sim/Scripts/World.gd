@@ -3,7 +3,8 @@ extends Node2D
 
 # Declare member variables here. Examples:
 export var tile_size = 64
-export var tick_length = 1.0
+export var game_speed = 0.4
+var tick_length = 1 - game_speed
 
 var score = 0
 
@@ -123,8 +124,6 @@ func tick():
 	#generate tiles
 	generate_tiles(get_visible_rect())
 	var player = get_node("Player")
-	
-	visual_food()
 
 	if in_spiel_modus == spiel_modi.wurzeln:
 		if can_root_move():
@@ -162,6 +161,8 @@ func tick():
 	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()
+	visual_food()
+	speed_increase()
 
 func target_cell_free(pos, dir):
 	return (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1)\
@@ -278,3 +279,13 @@ func game_over():
 	if HUD.hp_bar <= 0:
 		get_node("Tick_clock").stop()
 		
+func speed_increase():
+	if score > 50 and score < 101:
+		game_speed = 0.5
+		tick_length = 1 - game_speed
+	elif score > 100 and score < 151:
+		game_speed = 0.6
+		tick_length = 1 - game_speed
+	elif score > 150:
+		game_speed = 0.7
+		tick_length = 1 - game_speed

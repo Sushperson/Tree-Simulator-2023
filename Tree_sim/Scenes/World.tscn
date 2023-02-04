@@ -466,7 +466,7 @@ resource_local_to_scene = true
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
-tick_length = 0.322
+tick_length = 0.6
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )
