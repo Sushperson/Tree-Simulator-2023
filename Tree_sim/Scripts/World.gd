@@ -162,16 +162,16 @@ func player_char():
 		
 		if player.remaining_current_root_tiles <= 0:
 			if player.last_move_dir == Vector2(0,1):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 6)
+				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
 			elif player.last_move_dir == Vector2(1,0):
 				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
 			elif player.last_move_dir == Vector2(-1,0):
-				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
-			elif player.last_move_dir == Vector2(0,-1):
 				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
 		
 	elif in_spiel_modus == spiel_modi.wurzeln:
-		sprite.texture = load("res://ende_o.png")
+		sprite.texture = load("res://assets/wurzel/ende_o.png")
 		if player.last_move_dir == Vector2(0,1):
 			sprite.set_rotation(0)
 		elif player.last_move_dir == Vector2(1,0):
