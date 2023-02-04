@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/kurve_lu.png-7323c46929998c8e8868e364512bbbf8.stex"
+path="res://.import/kurve_ro.png-7fe7f3210b282d8e732d19b320fae82b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/wurzel/kurve_lu.png"
-dest_files=[ "res://.import/kurve_lu.png-7323c46929998c8e8868e364512bbbf8.stex" ]
+source_file="res://assets/wurzel/kurve_ro.png"
+dest_files=[ "res://.import/kurve_ro.png-7fe7f3210b282d8e732d19b320fae82b.stex" ]
 
 [params]
 

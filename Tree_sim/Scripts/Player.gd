@@ -7,8 +7,8 @@ var pos_y = 0
 var move_dir = Vector2(0,1)
 var last_move_dir = Vector2(0,1)
 var last_tile = 0
-var path = [[pos_x,pos_y],[pos_x,pos_y]]
-
+var path:Array = [[pos_x,pos_y],[pos_x,pos_y]]
+var leben = 20
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -26,18 +26,19 @@ func _process(delta):
 func move():
 	pos_x += int(move_dir.x)
 	pos_y += int(move_dir.y)
+	
 	path.append([pos_x, pos_y])
 	player_tile_id()
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
 
 
 enum richtungen{
-	# v=0, h=1, lo=2, or=3, ru=4, lu=5
+	
 	ObenUnten,
 	LinksRechts,
 	ObenLinks,
-	ObenRechts,
 	UntenLinks,
+	ObenRechts,
 	UntenRechts,
 	
 	
