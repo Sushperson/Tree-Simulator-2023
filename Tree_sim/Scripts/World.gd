@@ -30,9 +30,11 @@ func tick():
 	player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
 	set_player_tile()
 	
-	print(get_node("Camera2D").position)
-	get_node("Camera2D/Label").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
+	print(get_node("HUD"))
+	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	
+	health()
+
 func set_player_tile():
 	var player = get_node("Player")
 	var tilemap = get_node("RootGrid")
@@ -43,3 +45,13 @@ func set_player_tile():
 func get_visible_rect():
 	var camera = get_node("Camera2D")
 	return Rect2((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size , get_viewport_rect().size * camera.zoom / tile_size)
+
+
+func health():
+	var HUD = get_node("HUD")
+	var HpLabel = get_node("HUD/HpBar")
+	HpLabel.set_text("HP: " + str(HUD.hp_bar))
+	if HUD.hp_bar > 100:
+		HUD.hp_bar = 100
+	else:
+		HUD.hp_bar -= 1
