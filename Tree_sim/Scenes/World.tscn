@@ -231,6 +231,7 @@ current = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 51, 46 )
+z_index = -1
 texture = ExtResource( 3 )
 
 [node name="RootGrid" type="TileMap" parent="."]
@@ -243,6 +244,7 @@ script = ExtResource( 7 )
 [node name="Tick_clock" type="Timer" parent="."]
 
 [node name="BG_Grid" type="TileMap" parent="."]
+z_index = -6
 tile_set = SubResource( 2 )
 format = 1
 script = ExtResource( 12 )
