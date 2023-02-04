@@ -16,14 +16,16 @@
 [ext_resource path="res://assets/tilemap_sprit/boden3.png" type="Texture" id=14]
 [ext_resource path="res://assets/tilemap_sprit/boden2.png" type="Texture" id=15]
 [ext_resource path="res://assets/tilemap_sprit/boden1_grass.png" type="Texture" id=16]
-[ext_resource path="res://assets/wurzel/ende_l.png" type="Texture" id=17]
+
+[ext_resource path="res://assets/wurzel/ende_o.png" type="Texture" id=17]
 [ext_resource path="res://assets/sky.png" type="Texture" id=18]
 [ext_resource path="res://Scripts/HUD.gd" type="Script" id=19]
 [ext_resource path="res://assets/hp_pixel.png" type="Texture" id=20]
-[ext_resource path="res://assets/wurzel/ende_o.png" type="Texture" id=21]
-[ext_resource path="res://assets/wurzel/ende_r.png" type="Texture" id=22]
-[ext_resource path="res://assets/wurzel/ende_u.png" type="Texture" id=23]
+[ext_resource path="res://assets/wurzel/ende_u.png" type="Texture" id=21]
+[ext_resource path="res://assets/wurzel/ende_l.png" type="Texture" id=22]
+[ext_resource path="res://assets/wurzel/ende_r.png" type="Texture" id=23]
 [ext_resource path="res://assets/steine_alle.png" type="Texture" id=24]
+
 
 [sub_resource type="TileSet" id=1]
 0/name = "grade_h.png 0"
@@ -110,8 +112,6 @@
 5/shape_one_way_margin = 0.0
 5/shapes = [  ]
 5/z_index = 0
-6/name = "ende_l.png 6"
-6/texture = ExtResource( 17 )
 6/tex_offset = Vector2( 0, 0 )
 6/modulate = Color( 1, 1, 1, 1 )
 6/region = Rect2( 0, 0, 64, 64 )
@@ -124,8 +124,9 @@
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
 6/z_index = 0
-7/name = "ende_o.png 7"
-7/texture = ExtResource( 21 )
+
+7/name = "ende_r.png 7"
+7/texture = ExtResource( 23 )
 7/tex_offset = Vector2( 0, 0 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 64, 64 )
@@ -138,8 +139,9 @@
 7/shape_one_way_margin = 0.0
 7/shapes = [  ]
 7/z_index = 0
-8/name = "ende_r.png 8"
-8/texture = ExtResource( 22 )
+
+8/name = "ende_u.png 8"
+8/texture = ExtResource( 21 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 64, 64 )
@@ -152,8 +154,9 @@
 8/shape_one_way_margin = 0.0
 8/shapes = [  ]
 8/z_index = 0
-9/name = "ende_u.png 9"
-9/texture = ExtResource( 23 )
+
+9/name = "ende_l.png 9"
+9/texture = ExtResource( 22 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 64, 64 )
@@ -166,6 +169,20 @@
 9/shape_one_way_margin = 0.0
 9/shapes = [  ]
 9/z_index = 0
+10/name = "ende_o.png 10"
+10/texture = ExtResource( 17 )
+10/tex_offset = Vector2( 0, 0 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 0, 0, 64, 64 )
+10/tile_mode = 0
+10/occluder_offset = Vector2( 0, 0 )
+10/navigation_offset = Vector2( 0, 0 )
+10/shape_offset = Vector2( 0, 0 )
+10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+10/shape_one_way = false
+10/shape_one_way_margin = 0.0
+10/shapes = [  ]
+10/z_index = 0
 
 [sub_resource type="TileSet" id=2]
 resource_local_to_scene = true

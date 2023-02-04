@@ -37,6 +37,7 @@ func _ready():
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
 	get_node("HUD/HpFill").modulate = Color(0,255,0)
+	get_node("Player/Sprite").set_rotation(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,49 +48,60 @@ func ist_wurzel_fit():
 	player.remaining_current_root_tiles -= 1
 	print(player.remaining_current_root_tiles)
 	if player.remaining_current_root_tiles <= 0:
-		in_spiel_modus = spiel_modi.back_wurzeln
-	
+		change_mode(spiel_modi.back_wurzeln)
+
+func change_mode(mode):
+	in_spiel_modus = mode
+	if(mode == spiel_modi.back_wurzeln):
+		get_node("Player").move_dir = Vector2(0,0)
 	
 func _process(delta):
 	if Input.is_action_pressed("pause"):
 		if not in_spiel_modus == spiel_modi.pause:
-			in_spiel_modus = spiel_modi.pause
+			change_mode(spiel_modi.pause)
 		else:
-			in_spiel_modus = spiel_modi.wurzeln
-	if in_spiel_modus == spiel_modi.back_wurzeln:
-		if Input.get_action_strength("confirm") :
-			in_spiel_modus = spiel_modi.wurzeln
+			change_mode(spiel_modi.wurzeln)
 		
 	
 func tick():
 	get_node("Tick_clock").start(tick_length)
+	var player = get_node("Player")
 
 	if in_spiel_modus == spiel_modi.wurzeln:
-		var player = get_node("Player")
+		#move the player
 		player.move()
 		player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
+		
 		set_player_tile()
 		ist_wurzel_fit()
-		print(get_node("Camera2D").position)
-		get_node("BG_Grid").generate_tiles(get_visible_rect())
 		health()
 		visual_hp()
 		score_update()
+		
+		get_node("BG_Grid").generate_tiles(get_visible_rect())
+
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
-		var player = get_node("Player")
 		player.remaining_current_root_tiles += 1
+		
 		if len(player.path) <= 1:
-			in_spiel_modus = spiel_modi.verloren
+			change_mode(spiel_modi.verloren)
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
-		var last_pos = player.path.pop_back()
-		player.pos_x = last_pos[0]
-		player.pos_y = last_pos[1]
-		player.position = Vector2(last_pos[0] * tile_size + tile_size/2, last_pos[1]* tile_size + tile_size/2)
-	
+		#elif(target_cell_free(player.get_pos_vec(), player.move_dir)):
+		#	pass
+		else:
+			player.path.pop_back()
+			player.pos_x = player.path[-1][0]
+			player.pos_y = player.path[-1][1]
+			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
+		
 	print(get_node("Camera2D").position)
 	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	
+	player_char()
+
+func target_cell_free(pos, dir):
+	return not get_node("BG_Grid").get_cell((pos + dir).x, (pos + dir).y)
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
@@ -139,3 +151,34 @@ func score_update():
 	score += 1
 	get_node("HUD/Score").set_text("Score: " + str(score))
 	
+func player_char():
+	var sprite = get_node("Player/Sprite")
+	var player = get_node("Player")
+	var rootgrid = get_node("RootGrid")
+	
+	if in_spiel_modus == spiel_modi.back_wurzeln:
+		sprite.texture = load("res://assets/wurzel_highlight.png")
+		sprite.modulate.a = 0.3
+		
+		if player.remaining_current_root_tiles <= 0:
+			if player.last_move_dir == Vector2(0,1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
+			elif player.last_move_dir == Vector2(1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+			elif player.last_move_dir == Vector2(-1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+		
+	elif in_spiel_modus == spiel_modi.wurzeln:
+		sprite.texture = load("res://assets/wurzel/ende_o.png")
+		if player.last_move_dir == Vector2(0,1):
+			sprite.set_rotation(0)
+		elif player.last_move_dir == Vector2(1,0):
+			sprite.set_rotation(PI*1.5)
+		elif player.last_move_dir == Vector2(-1,0):
+			sprite.set_rotation(PI/2)
+		elif player.last_move_dir == Vector2(0,-1):
+			sprite.set_rotation(PI)
+			
+			

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ende_u.png-68efc39137369667bde1bdb1c7f4c1dc.stex"
+path="res://.import/wurzel_highlight.png-825bf8b0347bd0906cf033407e469b86.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ende_u.png"
-dest_files=[ "res://.import/ende_u.png-68efc39137369667bde1bdb1c7f4c1dc.stex" ]
+source_file="res://assets/wurzel_highlight.png"
+dest_files=[ "res://.import/wurzel_highlight.png-825bf8b0347bd0906cf033407e469b86.stex" ]
 
 [params]
 
