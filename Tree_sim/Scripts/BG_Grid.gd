@@ -14,7 +14,7 @@ func generate_tile(x, y):
 		if(y < 0):
 			tile = 5
 		elif(y == 0):
-			tile = 1
+			tile = 6
 		elif(y > 0):
 			tile = 0
 		set_cell(x, y, tile)

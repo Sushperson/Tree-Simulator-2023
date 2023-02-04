@@ -11,6 +11,13 @@ export var hp_bar_pos_y = 25
 export var hp_bar_scale_x = 1
 export var hp_bar_scale_y = 25
 # var b = "text"
+enum spiel_modi{
+	wurzeln,
+	back_wurzeln,
+	pause,
+	skilltree
+}
+var in_spiel_modi: int = spiel_modi.wurzeln
 
 
 
@@ -32,20 +39,37 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
+func ist_wurzel_fit():
+	var player = get_node("Player")
+	player.leben -= 1
+	print(player.leben)
+	if player.leben <= 0:
+		in_spiel_modi = spiel_modi.back_wurzeln
+	
 func tick():
 	get_node("Tick_clock").start(tick_length)
-	
-	var player = get_node("Player")
-	player.move()
-	player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
-	set_player_tile()
-	get_node("BG_Grid").generate_tiles(get_visible_rect())
-	
+	if in_spiel_modi == spiel_modi.wurzeln:
+		var player = get_node("Player")
+		player.move()
+		player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
+		set_player_tile()
+		ist_wurzel_fit()
+		print(get_node("Camera2D").position)
+		get_node("BG_Grid").generate_tiles(get_visible_rect())
+		health()
+		visual_hp()
+	elif in_spiel_modi == spiel_modi.back_wurzeln:
+		if Input.get_action_strength("confirm"):
+			in_spiel_modi = spiel_modi.wurzeln
+		else:
+			var player = get_node("Player")
+			player.leben += 1
+			var last_pos = player.path.pop_back()
+			player.position = Vector2(last_pos[0] * tile_size + tile_size/2, last_pos[1]* tile_size + tile_size/2)
+
+	print(get_node("Camera2D").position)
 	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	
-	health()
-	visual_hp()
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
@@ -58,7 +82,6 @@ func set_player_tile():
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
-	return Rect2((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size , get_viewport_rect().size * camera.zoom / tile_size)
 	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size).floor() - Vector2(1, 1),\
 				 (get_viewport_rect().size * camera.zoom / tile_size).ceil() + Vector2(2,2))
 
