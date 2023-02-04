@@ -45,10 +45,12 @@ func _ready():
 #	pass
 func ist_wurzel_fit():
 	var player = get_node("Player")
-	player.remaining_current_root_tiles -= 1
-	print(player.remaining_current_root_tiles)
 	if player.remaining_current_root_tiles <= 0:
 		change_mode(spiel_modi.back_wurzeln)
+		return false
+	else:
+		player.remaining_current_root_tiles -= 1
+		return true
 
 func change_mode(mode):
 	in_spiel_modus = mode
@@ -68,17 +70,17 @@ func tick():
 	var player = get_node("Player")
 
 	if in_spiel_modus == spiel_modi.wurzeln:
-		#move the player
-		player.move()
-		player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
-		
-		set_player_tile()
-		ist_wurzel_fit()
-		health()
-		visual_hp()
-		score_update()
-		
-		get_node("BG_Grid").generate_tiles(get_visible_rect())
+		if ist_wurzel_fit():
+			#move the player
+			player.move()
+			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
+			
+			set_player_tile()
+			health()
+			visual_hp()
+			score_update()
+			
+			get_node("BG_Grid").generate_tiles(get_visible_rect())
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
@@ -86,10 +88,9 @@ func tick():
 			change_mode(spiel_modi.verloren)
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
-		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and player.remaining_current_root_tiles > 0):
+		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and ist_wurzel_fit()):
 			player.move()
 			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
-			player.remaining_current_root_tiles -= 1
 			change_mode(spiel_modi.wurzeln)
 		else:
 			player.remaining_current_root_tiles += 1
