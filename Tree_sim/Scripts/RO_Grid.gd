@@ -1,6 +1,9 @@
 extends TileMap
 
 var tile_indices = [[0,0.7],[1,0.3]]
+var cluster_centers = {}
+export var max_cluster_dist : float = 10.0
+export var cluster_size : float = 2.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,27 +11,61 @@ func _ready():
 
 
 func generate_tile(x, y):
-	if(y > 1):
-		var neighbour = get_a_neighbour(x, y)
-		if neighbour == -1:
-			if(randf() < 0.1):
-				var rando = randf()
-				var sum = 0.0
-				for e in tile_indices:
-					if rando < sum + e[1]:
-						set_cell(x, y, e[0])
-						break
+	if(y > (cluster_size)):
+		var nn_dist = nearest_cluster_dist(x, y)
+		if(randf() < inter_cluster_dist_prob(max_cluster_dist, nn_dist)):
+			var rando = randf()
+			var sum = 0.0
+			for e in tile_indices:
+				if rando < sum + e[1]:
+					print("generating cluster on " + str(Vector2(x, y)))
+					print("with nn-distance " + str(nn_dist))
+					if e[0] == 1:
+						generate_cluster(x, y, e[0], cluster_size/2)
 					else:
-						sum += rando
-		else:
-			if(randf() < 0.4):
-				set_cell(x, y, neighbour)
-	update_bitmask_area(Vector2(x, y))
+						generate_cluster(x, y, e[0], rand_range(cluster_size/2, cluster_size))
+					cluster_centers[Vector2(x,y)] = true
+					break
+				else:
+					sum += rando
+		if(randf() < 0.1 and get_cell(x, y) == -1):
+			var rando = randf()
+			var sum = 0.0
+			for e in tile_indices:
+				if rando < sum + e[1]:
+					set_cell(x, y, e[0])
+					update_bitmask_area(Vector2(x, y))
+					break
+				else:
+					sum += rando
 
 
-func get_a_neighbour(x, y):
-	var neighbours = [Vector2(-1,0), Vector2(1,0), Vector2(0,-1), Vector2(0,1)]
-	for coords in neighbours:
-		if(get_cell(x + coords.x, y + coords.y) != -1):
-			return get_cell(x + coords.x, y + coords.y)
-	return -1
+
+func generate_cluster(x_cntr, y_cntr, material, cluster_sz = cluster_size):
+	for x in range(x_cntr - cluster_sz, x_cntr + cluster_sz + 1):
+		for y in range(y_cntr - cluster_sz, y_cntr + cluster_sz + 1):
+			if randf() < dist_prob_func(cluster_sz, Vector2(x_cntr, y_cntr).distance_to(Vector2(x, y))):
+				set_cell(x, y, material)
+	update_bitmask_region(Vector2(x_cntr, y_cntr) - Vector2(cluster_sz, cluster_sz), Vector2(x_cntr, y_cntr) + Vector2(cluster_sz, cluster_sz))
+
+# probability function for intra-cluster generation
+func dist_prob_func(max_dist : float, dist : float):
+	return 0.9 + (1/(max_dist-1.0)) - (1/(max_dist-1.0)) * dist
+	
+
+# probability function for inter-cluster generation
+func inter_cluster_dist_prob(max_dist : float, dist : float):
+	return ((0.75 / (max_dist - cluster_size)) * dist) - (cluster_size / (max_dist - cluster_size))
+
+# calculate distance to nearest cluster
+func nearest_cluster_dist(x, y):
+	for d in range(max_cluster_dist):
+		for dx in [-d, d]:
+			for dy in range(-d, d+1):
+				if cluster_centers.has(Vector2(x,y) + Vector2(dx, dy)):
+					return d
+		for dy in [-d, d]:
+			for dx in range(-d, d+1):
+				if cluster_centers.has(Vector2(x,y) + Vector2(dx, dy)):
+					return d
+	return 100

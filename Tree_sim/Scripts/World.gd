@@ -97,8 +97,6 @@ func change_mode(mode):
 		
 		var rootgrid = get_node("RootGrid")
 		var player = get_node("Player")
-		print(str(rootgrid.get_cell(player.path[-2][0], player.path[-2][1])))
-		print(str(player.move_dir))
 		if (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_v and player.move_dir == Vector2(-1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(0,1)):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_links)
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,-1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ro and player.move_dir == Vector2(-1,0)):
@@ -157,7 +155,6 @@ func tick():
 			player.pos_y = player.path[-1][1]
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
 		
-	print(get_node("Camera2D").position)
 	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()

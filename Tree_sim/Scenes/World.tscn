@@ -538,3 +538,5 @@ z_index = -4
 tile_set = SubResource( 3 )
 format = 1
 script = ExtResource( 31 )
+max_cluster_dist = 8.0
+cluster_size = 5.0
