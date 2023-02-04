@@ -37,6 +37,7 @@ func _ready():
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
 	get_node("HUD/HpFill").modulate = Color(0,255,0)
+	get_node("Player/Sprite").set_rotation(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -90,6 +91,7 @@ func tick():
 	print(get_node("Camera2D").position)
 	get_node("HUD/DebugCamSize").set_text("upper left:" + str(get_visible_rect().position) + "\n" + "lower right: " + str(get_visible_rect().end))
 	
+	player_char()
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
@@ -139,3 +141,34 @@ func score_update():
 	score += 1
 	get_node("HUD/Score").set_text("Score: " + str(score))
 	
+func player_char():
+	var sprite = get_node("Player/Sprite")
+	var player = get_node("Player")
+	var rootgrid = get_node("RootGrid")
+	
+	if in_spiel_modus == spiel_modi.back_wurzeln:
+		sprite.texture = load("res://assets/wurzel_highlight.png")
+		sprite.modulate.a = 0.3
+		
+		if player.remaining_current_root_tiles <= 0:
+			if player.last_move_dir == Vector2(0,1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 6)
+			elif player.last_move_dir == Vector2(1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+			elif player.last_move_dir == Vector2(-1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+		
+	elif in_spiel_modus == spiel_modi.wurzeln:
+		sprite.texture = load("res://ende_o.png")
+		if player.last_move_dir == Vector2(0,1):
+			sprite.set_rotation(0)
+		elif player.last_move_dir == Vector2(1,0):
+			sprite.set_rotation(PI*1.5)
+		elif player.last_move_dir == Vector2(-1,0):
+			sprite.set_rotation(PI/2)
+		elif player.last_move_dir == Vector2(0,-1):
+			sprite.set_rotation(PI)
+			
+			
