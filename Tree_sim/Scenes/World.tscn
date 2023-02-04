@@ -339,7 +339,7 @@ z_index = -1
 texture = ExtResource( 3 )
 
 [node name="RootGrid" type="TileMap" parent="."]
-z_index = -5
+z_index = -2
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 format = 1
@@ -380,5 +380,7 @@ scale = Vector2( 52.5, 9.5 )
 texture = ExtResource( 20 )
 
 [node name="TileMap" type="TileMap" parent="."]
+z_index = -4
 tile_set = SubResource( 3 )
 format = 1
+tile_data = PoolIntArray( 262142, 1, 196623, 262143, 1, 262145, 196608, 1, 196624, 327676, 1, 0, 327677, 1, 1, 327678, 1, 262154, 262144, 1, 131076, 393212, 1, 131072, 393213, 1, 7, 393214, 1, 65546, 393215, 1, 262146, 458749, 1, 131072, 458750, 1, 131074 )

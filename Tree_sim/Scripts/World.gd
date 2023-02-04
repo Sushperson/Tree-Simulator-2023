@@ -79,6 +79,7 @@ func tick():
 			health()
 			visual_hp()
 			score_update()
+			resource_yoink()
 			
 			get_node("BG_Grid").generate_tiles(get_visible_rect())
 
@@ -189,3 +190,11 @@ func player_char():
 			sprite.set_rotation(PI)
 			
 			
+func resource_yoink():
+	var player = get_node("Player")
+	var tilemap = get_node("TileMap")
+	var HUD = get_node("HUD")
+	
+	if tilemap.get_cell(player.pos_x, player.pos_y) == 1:
+		HUD.hp_bar += 5
+		player.remaining_current_root_tiles += 2
