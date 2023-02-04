@@ -215,10 +215,10 @@ script = ExtResource( 12 )
 script = ExtResource( 19 )
 
 [node name="Score" type="Label" parent="HUD"]
-margin_left = -5.0
-margin_top = -3.0
-margin_right = 35.0
-margin_bottom = 11.0
+margin_left = 147.0
+margin_top = 23.0
+margin_right = 187.0
+margin_bottom = 37.0
 
 [node name="HpBar" type="Label" parent="HUD"]
 margin_left = 22.0

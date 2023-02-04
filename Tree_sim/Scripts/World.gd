@@ -5,6 +5,7 @@ extends Node2D
 export var tile_size = 64
 export var tick_length = 1.0
 
+var score = 0
 
 export var hp_bar_pos_x = 20
 export var hp_bar_pos_y = 25
@@ -59,6 +60,7 @@ func tick():
 		get_node("BG_Grid").generate_tiles(get_visible_rect())
 		health()
 		visual_hp()
+		score_update()
 	elif in_spiel_modi == spiel_modi.back_wurzeln:
 		if Input.get_action_strength("confirm"):
 			in_spiel_modi = spiel_modi.wurzeln
@@ -115,3 +117,8 @@ func visual_hp():
 		HpFill.modulate = Color(255,140,0)
 	else:
 		HpFill.modulate = Color(255,0,0)
+
+func score_update():
+	score += 1
+	get_node("HUD/Score").set_text("Score: " + str(score))
+	
