@@ -11,6 +11,12 @@ export var hp_bar_pos_x = 20
 export var hp_bar_pos_y = 25
 export var hp_bar_scale_x = 1
 export var hp_bar_scale_y = 25
+
+export var food_bar_pos_x = 20
+export var food_bar_pos_y = 75
+export var food_bar_scale_x = 1
+export var food_bar_scale_y = 25
+
 # var b = "text"
 enum spiel_modi{
 	wurzeln,
@@ -37,7 +43,12 @@ func _ready():
 	get_node("HUD/HpFill").position.y = hp_bar_pos_y
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
-	get_node("HUD/HpFill").modulate = Color(0,255,0)
+	get_node("HUD/HpFill").modulate = Color(0,1,0)
+	get_node("HUD/FoodFill").position.x = food_bar_pos_x + (get_node("Player").remaining_current_root_tiles/2)
+	get_node("HUD/FoodFill").position.y = food_bar_pos_y
+	get_node("HUD/FoodFill").scale.x = food_bar_scale_x * get_node("Player").remaining_current_root_tiles * 10
+	get_node("HUD/FoodFill").scale.y = food_bar_scale_y
+	get_node("HUD/FoodFill").modulate = Color(1,0.90,0.05)
 	get_node("Player/Sprite").set_rotation(0)
 
 
@@ -112,6 +123,8 @@ func tick():
 	#generate tiles
 	generate_tiles(get_visible_rect())
 	var player = get_node("Player")
+	
+	visual_food()
 
 	if in_spiel_modus == spiel_modi.wurzeln:
 		if can_root_move():
@@ -181,25 +194,37 @@ func health():
 
 func visual_hp():
 	var HUD = get_node("HUD")
+	var player = get_node("Player")
+	
 	var HpLabel = get_node("HUD/HpBar")
 	var HpFill = get_node("HUD/HpFill")
 	var HpFill_scale = HpFill.get_scale()
 	var HpFill_position = HpFill.get_position()
 	
-	
 	HpFill.scale.x = hp_bar_scale_x * HUD.hp_bar
 	HpFill.scale.y = hp_bar_scale_y
 	
-	HpFill.position.x = hp_bar_pos_x + (HpFill_scale.x / 2)
+	HpFill.position.x = hp_bar_pos_x + (HpFill.scale.x / 2)
 	HpFill.position.y = hp_bar_pos_y
+	HpFill.modulate = Color(0.25,0.25,0.9)
 	
-	if HUD.hp_bar > 50:
-		HpFill.modulate = Color(0,255,0)
-	elif HUD.hp_bar > 25:
-		HpFill.modulate = Color(255,140,0)
-	else:
-		HpFill.modulate = Color(255,0,0)
+func visual_food():
+	var HUD = get_node("HUD")
+	var player = get_node("Player")
 
+	var FoodLabel = get_node("HUD/FoodBar")
+	var FoodFill = get_node("HUD/FoodFill")
+	var Foodill_scale = FoodFill.get_scale()
+	var FoodFill_position = FoodFill.get_position()
+	
+	FoodFill.scale.x = food_bar_scale_x * player.remaining_current_root_tiles * 10
+	FoodFill.scale.y = food_bar_scale_y
+	
+	FoodFill.position.x = food_bar_pos_x + (FoodFill.scale.x / 2)
+	FoodFill.position.y = food_bar_pos_y
+	FoodFill.modulate = Color(1,0.90,0.05)
+	
+	
 func score_update():
 	score += 1
 	get_node("HUD/Score").set_text("Score: " + str(score))
@@ -242,8 +267,9 @@ func resource_yoink():
 	var tilemap = get_node("RO_Grid")
 	var HUD = get_node("HUD")
 	
-	if tilemap.get_cell(player.pos_x, player.pos_y) == 1:
+	if tilemap.get_cell(player.pos_x, player.pos_y) == 3:
 		HUD.hp_bar += 5
+	if tilemap.get_cell(player.pos_x, player.pos_y) == 4:
 		player.remaining_current_root_tiles += 2
 
 func game_over():
