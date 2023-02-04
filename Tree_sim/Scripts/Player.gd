@@ -11,8 +11,6 @@ var path = [[pos_x,pos_y]]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	get_node("Tick_clock").connect("timeout", self, "move")
-	get_node("Tick_clock").start(1)
 	pass # Replace with function body.
 
 
@@ -29,7 +27,6 @@ func move():
 	pos_x += int(move_dir.x)
 	pos_y += int(move_dir.y)
 	path.append([pos_x, pos_y])
-	get_node("Tick_clock").start(1)
 	player_tile_id()
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
 
@@ -46,4 +43,8 @@ func player_tile_id():
 	elif move_dir + last_move_dir == Vector2(1,-1):
 		last_tile = 4
 		
-		
+func get_last_x():
+	return path[-2][0]
+	
+func get_last_y():
+	return path[-2][1]
