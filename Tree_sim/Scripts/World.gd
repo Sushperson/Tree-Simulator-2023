@@ -47,7 +47,6 @@ func set_player_tile():
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
-	return Rect2((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size , get_viewport_rect().size * camera.zoom / tile_size)
 	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size).floor() - Vector2(1, 1),\
 				 (get_viewport_rect().size * camera.zoom / tile_size).ceil() + Vector2(2,2))
 
