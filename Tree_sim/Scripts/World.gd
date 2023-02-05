@@ -50,12 +50,12 @@ func _ready():
 	get_node("HUD/HpFill").position.y = hp_bar_pos_y
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
-	get_node("HUD/HpFill").modulate = Color(0,1,0)
+	get_node("HUD/HpFill").modulate = Color(0,(87.0/255.0),(183.0/255.0))
 	get_node("HUD/FoodFill").position.x = food_bar_pos_x + (player.remaining_current_root_tiles/2)
 	get_node("HUD/FoodFill").position.y = food_bar_pos_y
 	get_node("HUD/FoodFill").scale.x = food_bar_scale_x * player.remaining_current_root_tiles * 10
 	get_node("HUD/FoodFill").scale.y = food_bar_scale_y
-	get_node("HUD/FoodFill").modulate = Color(1,0.90,0.05)
+	get_node("HUD/FoodFill").modulate = Color(1,(215.0/255.0),0)
 	get_node("Player/Sprite").set_rotation(0)
 
 
@@ -398,7 +398,7 @@ func speed_increase():
 	game_speed = fac_speed * logWithBase(score + 1, 2) + start_speed
 	if game_speed > 0.7:
 		game_speed = 0.7
-	get_node("HUD/GameSpeed").set_text(str(game_speed))
+	# get_node("HUD/GameSpeed").set_text(str(game_speed))
 	#if score > 50 and score < 101:
 	#	game_speed = 0.55
 	#	tick_length = 1 - game_speed
