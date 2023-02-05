@@ -19,6 +19,8 @@ export var food_bar_pos_y = 75
 export var food_bar_scale_x = 1
 export var food_bar_scale_y = 25
 
+var start_speed = 0.25
+var fac_speed = 0.02
 
 enum spiel_modi{
 	wurzeln,
@@ -164,8 +166,10 @@ func kaufen():
 				get_node("Player").max_rock_brakes += 1
 
 			elif skill_node.type == 2:
-				player.water_usage *= 0.75
-			
+				player.water_usage *= 0.9
+			elif skill_node.type == 3:
+				start_speed -= 0.025
+				fac_speed -= 0.001
 
 		
 func _process(delta):
@@ -382,7 +386,7 @@ func logWithBase(value, base):
 	return log(value) / log(base)		
 
 func speed_increase():
-	game_speed = 0.02 * logWithBase(score + 1, 2) + 0.25
+	game_speed = fac_speed * logWithBase(score + 1, 2) + start_speed
 	if game_speed > 0.7:
 		game_speed = 0.7
 	get_node("HUD/GameSpeed").set_text(str(game_speed))
