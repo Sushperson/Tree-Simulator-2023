@@ -179,11 +179,57 @@ texture = ExtResource( 8 )
 [node name="skill_point" parent="Node/punkte" instance=ExtResource( 25 )]
 visible = false
 position = Vector2( -8, -27 )
+__meta__ = {
+"_editor_description_": ""
+}
+beschreibungs_text = "plus 20 nerstoffe"
+kosten_nerstoffe = -20
 
 [node name="skill_point01" parent="Node/punkte/skill_point" instance=ExtResource( 25 )]
 visible = false
-position = Vector2( -50, -53 )
+position = Vector2( -43, -46 )
 links = true
+type = 1
+ast = 101
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point01" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -29, -25 )
+links = true
+type = 1
+ast = 102
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point01/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -53, -32 )
+links = true
+oben = true
+type = 1
+ast = 103
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point01/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -25, -44 )
+links = true
+oben = true
+type = 1
+ast = 104
+
+[node name="skill_point2" parent="Node/punkte/skill_point/skill_point01/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -54, -6 )
+links = true
+oben = true
+type = 1
+ast = 104
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point01/skill_point/skill_point/skill_point2" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -54, -36 )
+links = true
+oben = true
+type = 1
+ast = 105
 
 [node name="skill_point02" parent="Node/punkte/skill_point" instance=ExtResource( 25 )]
 visible = false
@@ -196,8 +242,67 @@ visible = false
 position = Vector2( -15, -118 )
 links = true
 oben = true
+ast = 201
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -38, -72 )
+links = true
+oben = true
+ast = 202
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( 11, -83 )
+links = true
+oben = true
+ast = 203
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -121, 42 )
+links = true
+oben = true
+ast = 204
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -60, -79 )
+links = true
+oben = true
+ast = 205
 
 [node name="skill_point22" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
 visible = false
 position = Vector2( 40, -96 )
+rechts = true
+ast = 300
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( 21, -52 )
+oben = true
+rechts = true
+ast = 301
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -20, -61 )
+links = true
+oben = true
+rechts = true
+ast = 302
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -6, -91 )
+links = true
+oben = true
+rechts = true
+ast = 304
+
+[node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point/skill_point/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -2, -89 )
+oben = true
 rechts = true
