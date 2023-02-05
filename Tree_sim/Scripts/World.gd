@@ -94,7 +94,6 @@ func change_mode(mode):
 		else:
 			camera.target_zoom = zoom_vec.y
 		generate_tiles(get_visible_rect())
-	speed_increase()
 	
 	if(mode == spiel_modi.back_wurzeln):
 		player.move_dir = Vector2(0,0)
@@ -155,6 +154,7 @@ func _process(delta):
 		else:
 			change_mode(save_spiel_modus)
 			change_mode(spiel_modi.wurzeln)
+	speed_increase()
 	
 	
 	
@@ -207,7 +207,6 @@ func tick():
 	
 	player_char()
 	visual_food()
-	speed_increase()
 
 func target_cell_free(pos, dir):
 	if (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1):
@@ -333,14 +332,19 @@ func is_game_over():
 	if HUD.hp_bar <= 0:
 		change_mode(spiel_modi.verloren)
 		
+func logWithBase(value, base):
+	return log(value) / log(base)		
+
 func speed_increase():
-	if score > 50 and score < 101:
-		game_speed = 0.55
-		tick_length = 1 - game_speed
-	elif score > 100 and score < 151:
-		game_speed = 0.7
-		tick_length = 1 - game_speed
-	elif score > 150:
-		game_speed = 0.85
-		tick_length = 1 - game_speed
+	game_speed = 0.02 * logWithBase(score + 1, 2) + 0.25
+	get_node("HUD/GameSpeed").set_text(str(game_speed))
+	#if score > 50 and score < 101:
+	#	game_speed = 0.55
+	#	tick_length = 1 - game_speed
+	#elif score > 100 and score < 151:
+	#	game_speed = 0.7
+	#	tick_length = 1 - game_speed
+	#elif score > 150:
+	#	game_speed = 0.85
+	#	tick_length = 1 - game_speed
 	get_node("Camera2D").set_follow_smoothing(2 * game_speed)
