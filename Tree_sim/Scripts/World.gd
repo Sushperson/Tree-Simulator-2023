@@ -10,12 +10,12 @@ var score = 0
 onready var player
 
 export var hp_bar_pos_x = 20
-export var hp_bar_pos_y = 25
+export var hp_bar_pos_y = 50
 export var hp_bar_scale_x = 1
 export var hp_bar_scale_y = 25
 
 export var food_bar_pos_x = 20
-export var food_bar_pos_y = 75
+export var food_bar_pos_y = 110
 export var food_bar_scale_x = 1
 export var food_bar_scale_y = 25
 
@@ -248,7 +248,7 @@ func tick():
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
 	elif in_spiel_modus == spiel_modi.skilltree:
 		set_text_kaufen()
-	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
+	get_node("HUD/FoodBar").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()
 	visual_food()
@@ -287,10 +287,13 @@ func get_visible_rect():
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
+	var player = get_node("Player")
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
 	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
+	var remaining_rock_breaks = player.get_remaining_rock_brakes()
+	get_node("HUD/StoneSkill").set_text("Rock Breaks: " + str(remaining_rock_breaks))
 	
 	
 

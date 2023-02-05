@@ -573,8 +573,16 @@ margin_right = 82.0
 margin_bottom = 32.0
 
 [node name="FoodBar" type="Label" parent="HUD"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_left = 22.0
+margin_top = 78.0
+margin_right = 62.0
+margin_bottom = 92.0
+
+[node name="StoneSkill" type="Label" parent="HUD"]
+margin_left = 22.0
+margin_top = 138.0
+margin_right = 62.0
+margin_bottom = 152.0
 
 [node name="DebugCamSize" type="Label" parent="HUD"]
 margin_left = 15.0
