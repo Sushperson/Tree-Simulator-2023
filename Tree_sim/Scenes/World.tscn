@@ -530,6 +530,13 @@ margin_top = 45.0
 margin_right = 73.0
 margin_bottom = 75.0
 
+[node name="skilltree_text" type="Label" parent="HUD"]
+margin_left = 76.0
+margin_top = -216.0
+margin_right = 349.0
+margin_bottom = -70.0
+text = "hallo"
+
 [node name="HpFill" type="Sprite" parent="HUD"]
 position = Vector2( 32.75, 9.25 )
 scale = Vector2( 52.5, 9.5 )

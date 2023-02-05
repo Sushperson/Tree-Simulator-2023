@@ -7,8 +7,6 @@ extends Node
 var poskorektur: Vector2 = Vector2(-120,-590)
 var scale_tree = 2
 
-var in_skill_modus:bool = false
-
 var tree_sprite:Array = [["1_stamm","Stamm",4],["2_astLinks","Links",5],["3_oben","Oben",6],["4_ast_rechts","ObenLinks",4]]
 var tree_branches:Array = [[100,101,102,103,104,105],[200,201,202,203,204,205,206],[300,301,302,303,304]]
 var free_skiel:Array = []
@@ -19,15 +17,17 @@ var stamm_leve: int = 0
 var in_skill = ''
 # Called when the node enters the scene tree for the first time.
 
+func get_skill_node():
+	return get_node(in_skill)
 
 func skiil_verlassen():
-	in_skill_modus =false
+
 	in_skill = 'Node/punkte/skill_point'
 	get_node(in_skill).visible = false
 	pass
 
 func skill_tree_aktiv():
-	in_skill_modus =true
+
 	in_skill = 'Node/punkte/skill_point'
 	
 	get_node(in_skill).visible = true
@@ -86,9 +86,7 @@ func gehe_zu_skill(var gehe_zu):
 					
 		
 
-func kaufen():
-	get_node(in_skill).kaufen(100)
-	
+
 
 	
 func set_branches(var branches):
@@ -116,23 +114,12 @@ func set_branches(var branches):
 					stamm_leve +=1
 					name_sprite = 'Node/'+str(tree_sprite[0][0])+'/'+str(tree_sprite[0][1])+str(stamm_leve)
 					get_node(name_sprite).visible = true
-			pass
+			
 
 
 
 
-func _process(delta):
-	if in_skill_modus:
-		if Input.is_action_just_pressed("right"):
-			gehe_zu_skill(1)
-		elif Input.is_action_just_pressed("down"):
-			gehe_zu_skill(2)
-		elif Input.is_action_just_pressed("left"):
-			gehe_zu_skill(3)
-		elif Input.is_action_just_pressed("up"):
-			gehe_zu_skill(0)
-		elif Input.is_action_just_pressed("ui_accept"):
-			kaufen()
+
 #	pass
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
