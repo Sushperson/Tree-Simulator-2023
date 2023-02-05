@@ -1,6 +1,6 @@
 extends TileMap
 
-var tile_indices = [[0,0.7],[1,0.3]]
+var tile_indices = [[0,0.6],[3,0.2],[4,0.2]]
 var cluster_centers = {}
 export var max_cluster_dist : float = 10.0
 export var cluster_size : float = 2.0
@@ -11,7 +11,7 @@ func _ready():
 
 
 func generate_tile(x, y):
-	if(y > (cluster_size)):
+	if(y > (cluster_size - 1)):
 		var nn_dist = nearest_cluster_dist(x, y)
 		if(randf() < inter_cluster_dist_prob(max_cluster_dist, nn_dist)):
 			var rando = randf()
@@ -27,8 +27,8 @@ func generate_tile(x, y):
 					cluster_centers[Vector2(x,y)] = true
 					break
 				else:
-					sum += rando
-		if(randf() < 0.1 and get_cell(x, y) == -1):
+					sum += e[1]
+		if(randf() < 0.2 and get_cell(x, y) == -1):
 			var rando = randf()
 			var sum = 0.0
 			for e in tile_indices:
@@ -37,7 +37,7 @@ func generate_tile(x, y):
 					update_bitmask_area(Vector2(x, y))
 					break
 				else:
-					sum += rando
+					sum += e[1]
 
 
 

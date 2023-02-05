@@ -278,11 +278,11 @@ func game_over():
 		
 func speed_increase():
 	if score > 50 and score < 101:
-		game_speed = 0.5
+		game_speed = 0.55
 		tick_length = 1 - game_speed
 	elif score > 100 and score < 151:
-		game_speed = 0.6
+		game_speed = 0.7
 		tick_length = 1 - game_speed
 	elif score > 150:
-		game_speed = 0.7
+		game_speed = 0.85
 		tick_length = 1 - game_speed
