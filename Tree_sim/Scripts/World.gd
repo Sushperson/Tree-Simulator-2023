@@ -167,7 +167,7 @@ func _process(delta):
 				
 		else:
 			change_mode(save_spiel_modus)
-			change_mode(spiel_modi.wurzeln)
+
 
 	if in_spiel_modus == spiel_modi.skilltree:
 		if Input.is_action_just_pressed("right"):
