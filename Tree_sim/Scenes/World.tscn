@@ -516,14 +516,20 @@ resource_local_to_scene = true
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="skilltree_text" type="Label" parent="."]
+margin_left = 157.0
+margin_top = -301.0
+margin_right = 430.0
+margin_bottom = -155.0
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 16, 16 )
+position = Vector2( 31, 32 )
 
 [node name="RemoteTransform2D2" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 16, 16 )
+position = Vector2( 31, 32 )
 current = true
 zoom = Vector2( 1.2, 1.2 )
 smoothing_enabled = true
@@ -531,6 +537,7 @@ smoothing_speed = 0.8
 script = ExtResource( 34 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 position = Vector2( 51, 46 )
 z_index = -1
 texture = ExtResource( 3 )
@@ -606,12 +613,14 @@ cluster_size = 5.0
 
 [node name="cam_skilltree" type="Sprite" parent="."]
 visible = false
+position = Vector2( 100, 10 )
 
 [node name="RemoteTransform2D_skilltree" type="RemoteTransform2D" parent="cam_skilltree"]
 remote_path = NodePath("../../Camera2D")
 use_global_coordinates = false
 
 [node name="tree" parent="." instance=ExtResource( 37 )]
+position = Vector2( 13, -4 )
 
 [node name="Sound_player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 35 )

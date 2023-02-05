@@ -76,11 +76,14 @@ func change_mode(mode):
 		get_node("tree").skiil_verlassen()
 		get_node("Player/RemoteTransform2D2").update_position = true
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = false
+		set_text_kaufen(true)
 	elif mode == spiel_modi.skilltree:
 		# gehe in skilltree
+		
 		get_node("tree").skill_tree_aktiv()
 		get_node("Player/RemoteTransform2D2").update_position = false
 		get_node("cam_skilltree").position = player.position
+		set_text_kaufen()
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = true
 	elif mode == spiel_modi.verloren:
 		get_node("Tick_clock").stop()
@@ -137,19 +140,33 @@ func change_mode(mode):
 	in_spiel_modus = mode
 
 
-func kaufen():
+
+func set_text_kaufen(var nicht:bool=false):
+	
 	var tree = get_node("tree")
 	var skill_node = tree.get_skill_node()
-	get_node("HUD/skilltree_text").set_text(skill_node.beschreibungs_text)
+	var player = get_node("Player")
+	var text = ''
+	if not nicht:
+		text = str(skill_node.beschreibungs_text)+'\nKosten: '+str(skill_node.kosten_nerstoffe)+'\n zum kaufen Enter Drücke'
+	get_node("skilltree_text").set_text(text)
+
+func kaufen():
+
+	var player = get_node("Player")
+	var tree = get_node("tree")
+	var skill_node = tree.get_skill_node()
 	if skill_node.aktiv == false:
 		if skill_node.kosten_nerstoffe <= player.remaining_current_root_tiles:
 			skill_node.gekauft()
 			player.remaining_current_root_tiles -= skill_node.kosten_nerstoffe
 			if skill_node.type == 1:
 				get_node("Player").max_rock_brakes += 1
+
 			elif skill_node.type == 2:
 				player.water_usage *= 0.75
 			
+
 		
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
@@ -167,7 +184,8 @@ func _process(delta):
 				
 		else:
 			change_mode(save_spiel_modus)
-			change_mode(spiel_modi.wurzeln)
+
+
 
 	if in_spiel_modus == spiel_modi.skilltree:
 		if Input.is_action_just_pressed("right"):
@@ -180,7 +198,7 @@ func _process(delta):
 			get_node("tree").gehe_zu_skill(0)
 		elif Input.is_action_just_pressed("ui_accept"):
 			kaufen()
-	
+
 	
 	
 # process a single game step
@@ -228,7 +246,8 @@ func tick():
 			player.pos_x = player.path[-1][0]
 			player.pos_y = player.path[-1][1]
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
-		
+	elif in_spiel_modus == spiel_modi.skilltree:
+		set_text_kaufen()
 	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()

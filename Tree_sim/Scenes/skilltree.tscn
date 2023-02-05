@@ -189,6 +189,7 @@ kosten_nerstoffe = -20
 visible = false
 position = Vector2( -43, -46 )
 links = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 101
 
@@ -196,6 +197,7 @@ ast = 101
 visible = false
 position = Vector2( -29, -25 )
 links = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 102
 
@@ -204,6 +206,7 @@ visible = false
 position = Vector2( -53, -32 )
 links = true
 oben = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 103
 
@@ -212,6 +215,7 @@ visible = false
 position = Vector2( -25, -44 )
 links = true
 oben = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 104
 
@@ -220,6 +224,7 @@ visible = false
 position = Vector2( -54, -6 )
 links = true
 oben = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 104
 
@@ -228,6 +233,7 @@ visible = false
 position = Vector2( -54, -36 )
 links = true
 oben = true
+beschreibungs_text = "zerstöre einen stein Mehr"
 type = 1
 ast = 105
 
