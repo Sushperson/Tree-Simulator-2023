@@ -206,7 +206,7 @@ func target_cell_free(pos, dir):
 		if get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0:
 			$Sound_player.play_earth_crunch()
 			return true
-		elif player.rock_brakes_used.size() < player.max_rock_brakes:
+		elif player.get_remaining_rock_brakes() > 0:
 			player.rock_brakes_used.append(player.path.size())
 			$Sound_player.play_stone_crunch()
 			print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))

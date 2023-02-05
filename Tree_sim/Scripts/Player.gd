@@ -106,6 +106,9 @@ func player_tile_id():
 				last_tile = richtungen.UntenRechts
 				
 
+func get_remaining_rock_brakes():
+	return max_rock_brakes - rock_brakes_used.size()
+
 		
 func get_last_x():
 	return path[-2][0]
