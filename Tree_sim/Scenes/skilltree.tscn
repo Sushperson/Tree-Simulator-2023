@@ -242,6 +242,7 @@ visible = false
 position = Vector2( 4, -90 )
 oben = true
 rechts = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
 type = 2
 
 [node name="skill_point21" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
@@ -249,6 +250,7 @@ visible = false
 position = Vector2( -15, -118 )
 links = true
 oben = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
 type = 2
 ast = 201
 
@@ -257,6 +259,8 @@ visible = false
 position = Vector2( -38, -72 )
 links = true
 oben = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
+type = 2
 ast = 202
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point" instance=ExtResource( 25 )]
@@ -264,6 +268,9 @@ visible = false
 position = Vector2( 11, -83 )
 links = true
 oben = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
+kosten_nerstoffe = 15
+type = 2
 ast = 203
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point/skill_point" instance=ExtResource( 25 )]
@@ -271,6 +278,8 @@ visible = false
 position = Vector2( -121, 42 )
 links = true
 oben = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
+type = 2
 ast = 204
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21/skill_point/skill_point/skill_point" instance=ExtResource( 25 )]
@@ -278,12 +287,17 @@ visible = false
 position = Vector2( -60, -79 )
 links = true
 oben = true
+beschreibungs_text = "den Wasserverbrauch zu senken"
+kosten_nerstoffe = 30
+type = 2
 ast = 205
 
 [node name="skill_point22" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
 visible = false
 position = Vector2( 40, -96 )
 rechts = true
+beschreibungs_text = "Spielgeschwindigkeit redziren"
+type = 3
 ast = 300
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22" instance=ExtResource( 25 )]
@@ -291,6 +305,8 @@ visible = false
 position = Vector2( 21, -52 )
 oben = true
 rechts = true
+beschreibungs_text = "Spielgeschwindigkeit redziren"
+type = 3
 ast = 301
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point" instance=ExtResource( 25 )]
@@ -299,6 +315,8 @@ position = Vector2( -20, -61 )
 links = true
 oben = true
 rechts = true
+beschreibungs_text = "Spielgeschwindigkeit redziren"
+kosten_nerstoffe = 30
 ast = 302
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point/skill_point" instance=ExtResource( 25 )]
@@ -307,6 +325,9 @@ position = Vector2( -6, -91 )
 links = true
 oben = true
 rechts = true
+beschreibungs_text = "Spielgeschwindigkeit redziren"
+kosten_nerstoffe = 50
+type = 3
 ast = 304
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point22/skill_point/skill_point/skill_point" instance=ExtResource( 25 )]
@@ -314,3 +335,6 @@ visible = false
 position = Vector2( -2, -89 )
 oben = true
 rechts = true
+beschreibungs_text = "Spielgeschwindigkeit redziren"
+kosten_nerstoffe = 100
+type = 4
