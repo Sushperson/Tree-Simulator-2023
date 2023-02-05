@@ -34,7 +34,7 @@ script = ExtResource( 22 )
 [node name="1_stamm" type="Node" parent="Node"]
 
 [node name="Stamm0" type="Sprite" parent="Node/1_stamm"]
-position = Vector2( -90, -385 )
+position = Vector2( -81, -384.5 )
 z_index = -5
 texture = ExtResource( 14 )
 
@@ -65,7 +65,7 @@ texture = ExtResource( 21 )
 [node name="2_astLinks" type="Node" parent="Node"]
 
 [node name="Links0" type="Sprite" parent="Node/2_astLinks"]
-position = Vector2( -90, -385 )
+position = Vector2( -81, -384.5 )
 z_index = -5
 texture = ExtResource( 2 )
 
@@ -102,7 +102,7 @@ texture = ExtResource( 24 )
 [node name="3_oben" type="Node" parent="Node"]
 
 [node name="Oben0" type="Sprite" parent="Node/3_oben"]
-position = Vector2( -90, -385 )
+position = Vector2( -81, -384.5 )
 z_index = -5
 texture = ExtResource( 13 )
 
@@ -215,8 +215,9 @@ visible = false
 position = Vector2( -25, -44 )
 links = true
 oben = true
-beschreibungs_text = "zerstöre einen Stein mehr"
-type = 1
+beschreibungs_text = "Sie erhalten Nährstoffe im Verhältnis zu den Wurzeln "
+kosten_nerstoffe = -10
+type = 4
 ast = 104
 
 [node name="skill_point2" parent="Node/punkte/skill_point/skill_point01/skill_point/skill_point" instance=ExtResource( 25 )]
