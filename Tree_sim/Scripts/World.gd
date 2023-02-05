@@ -6,6 +6,8 @@ export var tile_size = 64
 export var game_speed = 0.4
 var tick_length = 1 - game_speed
 
+var wurzel_zahler = 0
+
 var score = 0
 onready var player
 
@@ -101,6 +103,7 @@ func change_mode(mode):
 		generate_tiles(get_visible_rect())
 	
 	if(mode == spiel_modi.back_wurzeln):
+		wurzel_zahler += 1
 		player.move_dir = Vector2(0,0)
 		if(in_spiel_modus == spiel_modi.wurzeln):
 			var rootgrid = get_node("RootGrid")
@@ -170,6 +173,9 @@ func kaufen():
 			elif skill_node.type == 3:
 				start_speed -= 0.025
 				fac_speed -= 0.001
+			elif skill_node.type == 3:
+				player.remaining_current_root_tiles -= int(skill_node.kosten_nerstoffe/((wurzel_zahler/2)+1) )
+				
 
 		
 func _process(delta):
