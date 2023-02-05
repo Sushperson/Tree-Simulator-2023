@@ -27,7 +27,7 @@ enum spiel_modi{
 	verloren
 }
 var in_spiel_modus: int = spiel_modi.wurzeln
-
+var save_spiel_modus: int = in_spiel_modus
 
 
 # Called when the node enters the scene tree for the first time.
@@ -67,6 +67,15 @@ func can_root_move():
 
 # change the gamemode
 func change_mode(mode):
+	
+	if in_spiel_modus == spiel_modi.skilltree and not mode == spiel_modi.skilltree:
+		get_node("Player/RemoteTransform2D2").update_position = true
+		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = false
+	elif mode == spiel_modi.skilltree:
+		get_node("Player/RemoteTransform2D2").update_position = false
+		get_node("cam_skilltree").position = get_node("Player").position
+		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = true
+
 	in_spiel_modus = mode
 	if(mode == spiel_modi.back_wurzeln):
 		var player = get_node("Player")
@@ -107,12 +116,24 @@ func change_mode(mode):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_unten)
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], kreuzung)
-	
+
+		
 func _process(delta):
-	if Input.is_action_pressed("pause"):
+	if Input.is_action_just_pressed("pause"):
 		if not in_spiel_modus == spiel_modi.pause:
+			if not in_spiel_modus == spiel_modi.skilltree:
+				save_spiel_modus = in_spiel_modus
 			change_mode(spiel_modi.pause)
 		else:
+			change_mode(save_spiel_modus)
+	if Input.is_action_just_pressed("skilltree"):
+		if not in_spiel_modus == spiel_modi.skilltree:
+			if not in_spiel_modus == spiel_modi.pause:
+				save_spiel_modus = in_spiel_modus
+			change_mode(spiel_modi.skilltree)
+				
+		else:
+			change_mode(save_spiel_modus)
 			change_mode(spiel_modi.wurzeln)
 		
 # process a single game step

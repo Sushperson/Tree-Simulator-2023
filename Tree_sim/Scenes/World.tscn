@@ -466,7 +466,6 @@ resource_local_to_scene = true
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
-tick_length = 0.6
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )
@@ -475,7 +474,6 @@ position = Vector2( 16, 16 )
 remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 16, 16 )
 current = true
 zoom = Vector2( 1.2, 1.2 )
 smoothing_enabled = true
@@ -541,3 +539,10 @@ format = 1
 script = ExtResource( 31 )
 max_cluster_dist = 8.0
 cluster_size = 5.0
+
+[node name="cam_skilltree" type="Sprite" parent="."]
+visible = false
+
+[node name="RemoteTransform2D_skilltree" type="RemoteTransform2D" parent="cam_skilltree"]
+remote_path = NodePath("../../Camera2D")
+use_global_coordinates = false
