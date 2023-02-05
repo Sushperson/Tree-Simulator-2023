@@ -303,7 +303,7 @@ func health():
 	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
 	var remaining_rock_breaks = player.get_remaining_rock_brakes()
-	get_node("HUD/StoneSkill").set_text("Rock Breaks: " + str(remaining_rock_breaks)+"/nPress e: Skilltree")
+	get_node("HUD/StoneSkill").set_text("Rock Breaks: " + str(remaining_rock_breaks)+"\nPress e: Skilltree")
 	
 	
 
