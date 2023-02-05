@@ -3,7 +3,7 @@ extends Camera2D
 var smooth_zoom = 1
 var target_zoom = zoom.x
 
-const ZOOM_SPEED = 10
+const ZOOM_SPEED = 1
 
 func _ready():
 	pass
