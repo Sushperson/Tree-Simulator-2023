@@ -97,16 +97,16 @@ func change_mode(mode):
 	
 	if(mode == spiel_modi.back_wurzeln):
 		player.move_dir = Vector2(0,0)
-		
-		var rootgrid = get_node("RootGrid")
-		if player.last_move_dir == Vector2(0,1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 10)
-		elif player.last_move_dir == Vector2(1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 7)
-		elif player.last_move_dir == Vector2(-1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 9)
-		elif player.last_move_dir == Vector2(0,-1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+		if(in_spiel_modus == spiel_modi.wurzeln):
+			var rootgrid = get_node("RootGrid")
+			if player.last_move_dir == Vector2(0,1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
+			elif player.last_move_dir == Vector2(1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+			elif player.last_move_dir == Vector2(-1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
 			
 	elif(mode == spiel_modi.wurzeln) and player.path.size() > 2:
 		var grade_v = 0
@@ -140,7 +140,6 @@ func change_mode(mode):
 func kaufen():
 	var tree = get_node("tree")
 	var skill_node = tree.get_skill_node()
-	var player = get_node("Player")
 	get_node("HUD/skilltree_text").set_text(skill_node.beschreibungs_text)
 	if skill_node.aktiv == false:
 		if skill_node.kosten_nerstoffe <= player.remaining_current_root_tiles:
@@ -148,6 +147,9 @@ func kaufen():
 			player.remaining_current_root_tiles -= skill_node.kosten_nerstoffe
 			if skill_node.type == 1:
 				get_node("Player").max_rock_brakes += 1
+			elif skill_node.type == 2:
+				player.water_usage *= 0.75
+			
 		
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):

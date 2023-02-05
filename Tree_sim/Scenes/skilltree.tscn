@@ -236,12 +236,14 @@ visible = false
 position = Vector2( 4, -90 )
 oben = true
 rechts = true
+type = 2
 
 [node name="skill_point21" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
 visible = false
 position = Vector2( -15, -118 )
 links = true
 oben = true
+type = 2
 ast = 201
 
 [node name="skill_point" parent="Node/punkte/skill_point/skill_point02/skill_point21" instance=ExtResource( 25 )]
