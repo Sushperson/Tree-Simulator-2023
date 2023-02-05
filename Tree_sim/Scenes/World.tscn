@@ -471,6 +471,12 @@ resource_local_to_scene = true
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="skilltree_text" type="Label" parent="."]
+margin_left = 157.0
+margin_top = -301.0
+margin_right = 430.0
+margin_bottom = -155.0
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 16, 16 )
 
@@ -486,6 +492,7 @@ smoothing_speed = 0.8
 script = ExtResource( 34 )
 
 [node name="Sprite" type="Sprite" parent="."]
+visible = false
 position = Vector2( 51, 46 )
 z_index = -1
 texture = ExtResource( 3 )
@@ -530,13 +537,6 @@ margin_top = 45.0
 margin_right = 73.0
 margin_bottom = 75.0
 
-[node name="skilltree_text" type="Label" parent="HUD"]
-margin_left = 76.0
-margin_top = -216.0
-margin_right = 349.0
-margin_bottom = -70.0
-text = "hallo"
-
 [node name="HpFill" type="Sprite" parent="HUD"]
 position = Vector2( 32.75, 9.25 )
 scale = Vector2( 52.5, 9.5 )
@@ -555,6 +555,7 @@ cluster_size = 5.0
 
 [node name="cam_skilltree" type="Sprite" parent="."]
 visible = false
+position = Vector2( 100, 10 )
 
 [node name="RemoteTransform2D_skilltree" type="RemoteTransform2D" parent="cam_skilltree"]
 remote_path = NodePath("../../Camera2D")

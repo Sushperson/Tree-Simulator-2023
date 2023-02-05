@@ -57,11 +57,7 @@ func _ready():
 
 func gehe_zu_skill(var gehe_zu):
 	# 3 = links, 0 = oben , 1 = rechts ,2 = zurück
-	
 
-	#if my_path.length ( ) < in_skill.length():
-		#if my_path == in_skill.substr(0,my_path.length()):
-			#in_skill = in_skill.substr(my_path.length(),-1)
 	print(in_skill)
 
 	if gehe_zu == 2:
