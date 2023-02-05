@@ -335,7 +335,7 @@ func visual_food():
 	
 func score_update():
 	score += 1
-	get_node("HUD/Score").set_text("Score: " + str(score))
+	# get_node("HUD/Score").set_text("Score: " + str(score))
 	
 # Sets the sprite of the player (or something)
 func player_char():
