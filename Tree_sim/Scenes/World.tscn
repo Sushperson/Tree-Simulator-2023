@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/World.gd" type="Script" id=2]
@@ -34,6 +34,8 @@
 [ext_resource path="res://assets/tilemap_sprit/wasser_kacheln2.png" type="Texture" id=32]
 [ext_resource path="res://assets/tilemap_sprit/nerstoffe_kacheln.png" type="Texture" id=33]
 [ext_resource path="res://Scripts/Camera2D.gd" type="Script" id=34]
+[ext_resource path="res://sounds/donk2.wav" type="AudioStream" id=35]
+[ext_resource path="res://Scripts/Sound_player.gd" type="Script" id=36]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grade_h.png 0"
@@ -549,3 +551,8 @@ visible = false
 [node name="RemoteTransform2D_skilltree" type="RemoteTransform2D" parent="cam_skilltree"]
 remote_path = NodePath("../../Camera2D")
 use_global_coordinates = false
+
+[node name="Sound_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 35 )
+bus = "Sounds"
+script = ExtResource( 36 )

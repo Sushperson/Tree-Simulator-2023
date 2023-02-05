@@ -127,7 +127,8 @@ func change_mode(mode):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_rechts)
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ru and player.move_dir == Vector2(-1,0)):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_unten)
-		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0)\
+				or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], kreuzung)
 
 		
@@ -203,12 +204,15 @@ func tick():
 func target_cell_free(pos, dir):
 	if (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1):
 		if get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0:
+			$Sound_player.play_earth_crunch()
 			return true
 		elif player.rock_brakes_used.size() < player.max_rock_brakes:
 			player.rock_brakes_used.append(player.path.size())
+			$Sound_player.play_stone_crunch()
 			print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))
 			return true
 	else:
+		$Sound_player.play_donk()
 		return false
 
 # Set a root-tile to the tile that was just left by the player
