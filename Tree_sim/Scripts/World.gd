@@ -58,9 +58,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
 func can_root_move():
 	if player.remaining_current_root_tiles <= 0 or not target_cell_free(player.get_pos_vec(), player.move_dir):
-		change_mode(spiel_modi.back_wurzeln)
 		return false
 	else:
 		player.remaining_current_root_tiles -= 1
@@ -68,6 +68,7 @@ func can_root_move():
 
 # change the gamemode
 func change_mode(mode):
+	print("change mode to: " + str(mode))
 	var camera = get_node("Camera2D")
 	camera.set_follow_smoothing(5)
 	if in_spiel_modus == spiel_modi.skilltree and not mode == spiel_modi.skilltree:
@@ -94,8 +95,7 @@ func change_mode(mode):
 			camera.target_zoom = zoom_vec.y
 		generate_tiles(get_visible_rect())
 	speed_increase()
-
-	in_spiel_modus = mode
+	
 	if(mode == spiel_modi.back_wurzeln):
 		player.move_dir = Vector2(0,0)
 		
@@ -134,6 +134,8 @@ func change_mode(mode):
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0)\
 				or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], kreuzung)
+	
+	in_spiel_modus = mode
 
 		
 func _process(delta):
@@ -158,6 +160,7 @@ func _process(delta):
 	
 # process a single game step
 func tick():
+	print("=======")
 	#restart tick-clock
 	get_node("Tick_clock").start(tick_length)
 	#generate tiles
@@ -176,6 +179,8 @@ func tick():
 			score_update()
 			resource_yoink()
 			is_game_over()
+		else:
+			change_mode(spiel_modi.back_wurzeln)
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
@@ -183,7 +188,7 @@ func tick():
 			change_mode(spiel_modi.verloren)
 			get_node("HUD/DebugCamSize").set_text('the tree has died') # ?? verloren text
 			print('verloren')
-		elif(player.move_dir and target_cell_free(player.get_pos_vec(), player.move_dir) and can_root_move()):
+		elif(player.move_dir and can_root_move()):
 			player.move()
 			player.position = Vector2(player.pos_x * tile_size + tile_size/2, player.pos_y * tile_size + tile_size/2)
 			change_mode(spiel_modi.wurzeln)
@@ -193,7 +198,6 @@ func tick():
 			player.path.pop_back()
 			if player.rock_brakes_used and player.path.size() <= player.rock_brakes_used[-1]:
 				player.rock_brakes_used.pop_back()
-				print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))
 			
 			player.pos_x = player.path[-1][0]
 			player.pos_y = player.path[-1][1]
@@ -207,17 +211,16 @@ func tick():
 
 func target_cell_free(pos, dir):
 	if (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1):
+		print("Rock breaks: " + str(player.get_remaining_rock_brakes()))
 		if get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0:
 			$Sound_player.play_earth_crunch()
 			return true
 		elif player.get_remaining_rock_brakes() > 0:
 			player.rock_brakes_used.append(player.path.size())
 			$Sound_player.play_stone_crunch()
-			print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))
 			return true
-	else:
-		$Sound_player.play_donk()
-		return false
+	$Sound_player.play_donk()
+	return false
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
