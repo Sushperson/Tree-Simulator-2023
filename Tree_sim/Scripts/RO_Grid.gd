@@ -11,7 +11,7 @@ func _ready():
 
 
 func generate_tile(x, y):
-	if(y > (cluster_size - 1)):
+	if(y > (cluster_size + 1)):
 		var nn_dist = nearest_cluster_dist(x, y)
 		if(randf() < inter_cluster_dist_prob(max_cluster_dist, nn_dist)):
 			var rando = randf()
@@ -20,14 +20,15 @@ func generate_tile(x, y):
 				if rando < sum + e[1]:
 					print("generating cluster on " + str(Vector2(x, y)))
 					print("with nn-distance " + str(nn_dist))
-					if e[0] == 1:
-						generate_cluster(x, y, e[0], cluster_size/2)
+					if e[0] >= 1:
+						generate_cluster(x, y, e[0], cluster_size/3)
 					else:
-						generate_cluster(x, y, e[0], rand_range(cluster_size/2, cluster_size))
+						generate_cluster(x, y, e[0], rand_range(cluster_size/4, cluster_size*1.5))
 					cluster_centers[Vector2(x,y)] = true
 					break
 				else:
 					sum += e[1]
+	if(y > 1):
 		if(randf() < 0.2 and get_cell(x, y) == -1):
 			var rando = randf()
 			var sum = 0.0
