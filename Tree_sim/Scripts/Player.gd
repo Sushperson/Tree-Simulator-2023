@@ -36,8 +36,6 @@ func move():
 	pos_y += int(move_dir.y)
 	
 	update_max_coords()
-	print("max pos now: " + str(max_pos))
-	print("min pos now: " + str(min_pos))
 	path.append([pos_x, pos_y])
 	player_tile_id()
 	last_move_dir = Vector2(move_dir.x, move_dir.y)
