@@ -14,6 +14,8 @@ var path:Array = [[pos_x,pos_y],[pos_x,pos_y]]
 var remaining_current_root_tiles = 10
 var rock_brakes_used = []
 var max_rock_brakes = 1
+
+var water_usage = 1.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

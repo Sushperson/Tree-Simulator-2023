@@ -97,20 +97,19 @@ func change_mode(mode):
 		else:
 			camera.target_zoom = zoom_vec.y
 		generate_tiles(get_visible_rect())
-	speed_increase()
 	
 	if(mode == spiel_modi.back_wurzeln):
 		player.move_dir = Vector2(0,0)
-		
-		var rootgrid = get_node("RootGrid")
-		if player.last_move_dir == Vector2(0,1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 10)
-		elif player.last_move_dir == Vector2(1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 7)
-		elif player.last_move_dir == Vector2(-1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 9)
-		elif player.last_move_dir == Vector2(0,-1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+		if(in_spiel_modus == spiel_modi.wurzeln):
+			var rootgrid = get_node("RootGrid")
+			if player.last_move_dir == Vector2(0,1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
+			elif player.last_move_dir == Vector2(1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+			elif player.last_move_dir == Vector2(-1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
 			
 	elif(mode == spiel_modi.wurzeln) and player.path.size() > 2:
 		var grade_v = 0
@@ -141,6 +140,7 @@ func change_mode(mode):
 	in_spiel_modus = mode
 
 
+
 func set_text_kaufen(var nicht:bool=false):
 	
 	var tree = get_node("tree")
@@ -152,15 +152,20 @@ func set_text_kaufen(var nicht:bool=false):
 	get_node("skilltree_text").set_text(text)
 
 func kaufen():
-	var tree = get_node("tree")
-	var skill_node = tree.get_skill_node()
+
 	var player = get_node("Player")
+	var skill_node = tree.get_skill_node()
 	if skill_node.aktiv == false:
 		if skill_node.kosten_nerstoffe <= player.remaining_current_root_tiles:
 			skill_node.gekauft()
 			player.remaining_current_root_tiles -= skill_node.kosten_nerstoffe
 			if skill_node.type == 1:
 				get_node("Player").max_rock_brakes += 1
+
+			elif skill_node.type == 2:
+				player.water_usage *= 0.75
+			
+
 		
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
@@ -178,7 +183,9 @@ func _process(delta):
 				
 		else:
 			change_mode(save_spiel_modus)
-			change_mode(spiel_modi.wurzeln)
+
+
+
 	if in_spiel_modus == spiel_modi.skilltree:
 		if Input.is_action_just_pressed("right"):
 			get_node("tree").gehe_zu_skill(1)
@@ -193,7 +200,6 @@ func _process(delta):
 
 	
 	
-	
 # process a single game step
 func tick():
 	print("=======")
@@ -201,6 +207,7 @@ func tick():
 	get_node("Tick_clock").start(tick_length)
 	#generate tiles
 	generate_tiles(get_visible_rect())
+	speed_increase()
 
 	if in_spiel_modus == spiel_modi.wurzeln:
 		if can_root_move():
@@ -244,7 +251,6 @@ func tick():
 	
 	player_char()
 	visual_food()
-	speed_increase()
 
 func target_cell_free(pos, dir):
 	if (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1):
@@ -273,15 +279,16 @@ func grid_to_world(grid_pos : Vector2):
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
+	var cluster_size = get_node("RO_Grid").cluster_size
 	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.target_zoom)) / tile_size).floor() - Vector2(1, 1),\
-				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(2,2))
+				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(cluster_size, cluster_size))
 
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
-	HUD.hp_bar -= 1
+	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
 	
 	
@@ -370,14 +377,21 @@ func is_game_over():
 	if HUD.hp_bar <= 0:
 		change_mode(spiel_modi.verloren)
 		
+func logWithBase(value, base):
+	return log(value) / log(base)		
+
 func speed_increase():
-	if score > 50 and score < 101:
-		game_speed = 0.55
-		tick_length = 1 - game_speed
-	elif score > 100 and score < 151:
+	game_speed = 0.02 * logWithBase(score + 1, 2) + 0.25
+	if game_speed > 0.7:
 		game_speed = 0.7
-		tick_length = 1 - game_speed
-	elif score > 150:
-		game_speed = 0.85
-		tick_length = 1 - game_speed
+	get_node("HUD/GameSpeed").set_text(str(game_speed))
+	#if score > 50 and score < 101:
+	#	game_speed = 0.55
+	#	tick_length = 1 - game_speed
+	#elif score > 100 and score < 151:
+	#	game_speed = 0.7
+	#	tick_length = 1 - game_speed
+	#elif score > 150:
+	#	game_speed = 0.85
+	#	tick_length = 1 - game_speed
 	get_node("Camera2D").set_follow_smoothing(2 * game_speed)
