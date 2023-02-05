@@ -2,6 +2,7 @@ extends TileMap
 
 var dirt_tile_ids = [0,2,4]
 var grass_tile_ids = [6,7]
+var bright_tile_ids = [5]
 
 # generate a single background tile at the given coordinates
 func generate_tile(x, y):
@@ -11,6 +12,8 @@ func generate_tile(x, y):
 			tile = 5
 		elif(y == 0): #grass
 			tile = grass_tile_ids[randi() % grass_tile_ids.size()]
-		elif(y > 0): #dirt
+		elif(y == 1): #bright dirt
+			tile = dirt_tile_ids[randi() % dirt_tile_ids.size()]
+		elif(y > 1): #dirt
 			tile = dirt_tile_ids[randi() % dirt_tile_ids.size()]
 		set_cell(x, y, tile)

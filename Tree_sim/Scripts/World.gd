@@ -337,6 +337,8 @@ func logWithBase(value, base):
 
 func speed_increase():
 	game_speed = 0.02 * logWithBase(score + 1, 2) + 0.25
+	if game_speed > 0.7:
+		game_speed = 0.7
 	get_node("HUD/GameSpeed").set_text(str(game_speed))
 	#if score > 50 and score < 101:
 	#	game_speed = 0.55
