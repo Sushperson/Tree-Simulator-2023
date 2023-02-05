@@ -12,12 +12,12 @@ var score = 0
 onready var player
 
 export var hp_bar_pos_x = 20
-export var hp_bar_pos_y = 25
+export var hp_bar_pos_y = 50
 export var hp_bar_scale_x = 1
 export var hp_bar_scale_y = 25
 
 export var food_bar_pos_x = 20
-export var food_bar_pos_y = 75
+export var food_bar_pos_y = 110
 export var food_bar_scale_x = 1
 export var food_bar_scale_y = 25
 
@@ -258,7 +258,7 @@ func tick():
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
 	elif in_spiel_modus == spiel_modi.skilltree:
 		set_text_kaufen()
-	get_node("HUD/DebugCamSize").set_text(str(player.remaining_current_root_tiles))
+	get_node("HUD/FoodBar").set_text(str(player.remaining_current_root_tiles))
 	
 	player_char()
 	visual_food()
@@ -297,10 +297,13 @@ func get_visible_rect():
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
+	var player = get_node("Player")
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
 	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
+	var remaining_rock_breaks = player.get_remaining_rock_brakes()
+	get_node("HUD/StoneSkill").set_text("Rock Breaks: " + str(remaining_rock_breaks))
 	
 	
 
@@ -318,7 +321,7 @@ func visual_hp():
 	
 	HpFill.position.x = hp_bar_pos_x + (HpFill.scale.x / 2)
 	HpFill.position.y = hp_bar_pos_y
-	HpFill.modulate = Color(0.25,0.25,0.9)
+	HpFill.modulate = Color(0,(87.0/255.0),(183.0/255.0))
 	
 func visual_food():
 	var HUD = get_node("HUD")
@@ -333,12 +336,12 @@ func visual_food():
 	
 	FoodFill.position.x = food_bar_pos_x + (FoodFill.scale.x / 2)
 	FoodFill.position.y = food_bar_pos_y
-	FoodFill.modulate = Color(1,0.90,0.05)
+	FoodFill.modulate = Color(1,(215.0/255.0),0)
 	
 	
 func score_update():
 	score += 1
-	get_node("HUD/Score").set_text("Score: " + str(score))
+	# get_node("HUD/Score").set_text("Score: " + str(score))
 	
 # Sets the sprite of the player (or something)
 func player_char():
