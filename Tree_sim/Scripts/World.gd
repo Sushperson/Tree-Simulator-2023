@@ -259,15 +259,16 @@ func grid_to_world(grid_pos : Vector2):
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
+	var cluster_size = get_node("RO_Grid").cluster_size
 	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.target_zoom)) / tile_size).floor() - Vector2(1, 1),\
-				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(2,2))
+				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(cluster_size, cluster_size))
 
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
-	HUD.hp_bar -= 1
+	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
 	
 	
