@@ -76,7 +76,7 @@ func change_mode(mode):
 	var camera = get_node("Camera2D")
 	camera.set_follow_smoothing(5)
 	if in_spiel_modus == spiel_modi.skilltree and not mode == spiel_modi.skilltree:
-		# verlasse skilltree
+		# verlasseui_reset skilltree
 		get_node("tree").skiil_verlassen()
 		get_node("Player/RemoteTransform2D2").update_position = true
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = false
@@ -87,8 +87,9 @@ func change_mode(mode):
 		get_node("tree").skill_tree_aktiv()
 		get_node("Player/RemoteTransform2D2").update_position = false
 		get_node("cam_skilltree").position = player.position
-		set_text_kaufen()
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = true
+		set_text_kaufen()
+		
 	elif mode == spiel_modi.verloren:
 		get_node("Tick_clock").stop()
 		var player_max_world_pos = grid_to_world(player.max_pos + Vector2(5,5))
@@ -179,6 +180,7 @@ func kaufen():
 
 		
 func _process(delta):
+
 	if Input.is_action_just_pressed("pause"):
 		if not in_spiel_modus == spiel_modi.pause:
 			if not in_spiel_modus == spiel_modi.skilltree:

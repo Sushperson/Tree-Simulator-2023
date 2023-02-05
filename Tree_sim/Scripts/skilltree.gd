@@ -70,6 +70,7 @@ func gehe_zu_skill(var gehe_zu):
 			if child_skill.name.substr(0,"skill_point".length()) == "skill_point":
 				child_skill.skill_punkt_anzeigen()
 				if get_node(in_skill).aktiv:
+					set_branches(get_node(in_skill).ast)
 					if child_skill.links == true and gehe_zu == 3:
 						in_skill = child_skill.get_path()
 						get_node(in_skill).auswaehlen()
