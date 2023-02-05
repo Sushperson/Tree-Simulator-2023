@@ -7,6 +7,7 @@ export var game_speed = 0.4
 var tick_length = 1 - game_speed
 
 var score = 0
+onready var player
 
 export var hp_bar_pos_x = 20
 export var hp_bar_pos_y = 25
@@ -18,7 +19,7 @@ export var food_bar_pos_y = 75
 export var food_bar_scale_x = 1
 export var food_bar_scale_y = 25
 
-# var b = "text"
+
 enum spiel_modi{
 	wurzeln,
 	back_wurzeln,
@@ -33,6 +34,7 @@ var save_spiel_modus: int = in_spiel_modus
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	player = get_node("Player")
 	get_node("RootGrid").cell_size.x = tile_size
 	get_node("RootGrid").cell_size.y = tile_size
 	get_node("BG_Grid").cell_size.x = tile_size
@@ -45,9 +47,9 @@ func _ready():
 	get_node("HUD/HpFill").scale.x = hp_bar_scale_x * 100
 	get_node("HUD/HpFill").scale.y = hp_bar_scale_y
 	get_node("HUD/HpFill").modulate = Color(0,1,0)
-	get_node("HUD/FoodFill").position.x = food_bar_pos_x + (get_node("Player").remaining_current_root_tiles/2)
+	get_node("HUD/FoodFill").position.x = food_bar_pos_x + (player.remaining_current_root_tiles/2)
 	get_node("HUD/FoodFill").position.y = food_bar_pos_y
-	get_node("HUD/FoodFill").scale.x = food_bar_scale_x * get_node("Player").remaining_current_root_tiles * 10
+	get_node("HUD/FoodFill").scale.x = food_bar_scale_x * player.remaining_current_root_tiles * 10
 	get_node("HUD/FoodFill").scale.y = food_bar_scale_y
 	get_node("HUD/FoodFill").modulate = Color(1,0.90,0.05)
 	get_node("Player/Sprite").set_rotation(0)
@@ -57,7 +59,6 @@ func _ready():
 #func _process(delta):
 #	pass
 func can_root_move():
-	var player = get_node("Player")
 	if player.remaining_current_root_tiles <= 0 or not target_cell_free(player.get_pos_vec(), player.move_dir):
 		change_mode(spiel_modi.back_wurzeln)
 		return false
@@ -67,7 +68,8 @@ func can_root_move():
 
 # change the gamemode
 func change_mode(mode):
-	
+	var camera = get_node("Camera2D")
+	camera.set_follow_smoothing(5)
 	if in_spiel_modus == spiel_modi.skilltree and not mode == spiel_modi.skilltree:
 		# verlasse skilltree
 		get_node("tree").skiil_verlassen()
@@ -77,12 +79,24 @@ func change_mode(mode):
 		# gehe in skilltree
 		get_node("tree").skill_tree_aktiv()
 		get_node("Player/RemoteTransform2D2").update_position = false
-		get_node("cam_skilltree").position = get_node("Player").position
+		get_node("cam_skilltree").position = player.position
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = true
+	elif mode == spiel_modi.verloren:
+		get_node("Tick_clock").stop()
+		var player_max_world_pos = grid_to_world(player.max_pos + Vector2(5,5))
+		var player_min_world_pos = grid_to_world(player.min_pos - Vector2(5,5))
+		get_node("Player/RemoteTransform2D2").update_position = false
+		camera.position = (player_max_world_pos + player_min_world_pos) / 2
+		var zoom_vec = (player_max_world_pos - player_min_world_pos) / get_viewport_rect().size
+		if(zoom_vec.x > zoom_vec.y):
+			camera.target_zoom = zoom_vec.x
+		else:
+			camera.target_zoom = zoom_vec.y
+		generate_tiles(get_visible_rect())
+	speed_increase()
 
 	in_spiel_modus = mode
 	if(mode == spiel_modi.back_wurzeln):
-		var player = get_node("Player")
 		player.move_dir = Vector2(0,0)
 		
 		var rootgrid = get_node("RootGrid")
@@ -109,8 +123,7 @@ func change_mode(mode):
 		var t_unten = 15
 		
 		var rootgrid = get_node("RootGrid")
-		var player = get_node("Player")
-		if (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_v and player.move_dir == Vector2(-1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(0,1)):
+		if (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_v and player.move_dir == Vector2(-1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(0,-1)):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_links)
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,-1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lo and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ro and player.move_dir == Vector2(-1,0)):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_oben)
@@ -118,7 +131,8 @@ func change_mode(mode):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_rechts)
 		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == grade_h and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_lu and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == kurve_ru and player.move_dir == Vector2(-1,0)):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], t_unten)
-		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
+		elif (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_links and player.move_dir == Vector2(1,0)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_oben and player.move_dir == Vector2(0,1)) or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_rechts and player.move_dir == Vector2(-1,0)\
+				or (rootgrid.get_cell(player.path[-2][0], player.path[-2][1]) == t_unten and player.move_dir == Vector2(0,-1))):
 			rootgrid.set_cell(player.path[-2][0], player.path[-2][1], kreuzung)
 
 		
@@ -139,14 +153,15 @@ func _process(delta):
 		else:
 			change_mode(save_spiel_modus)
 			change_mode(spiel_modi.wurzeln)
-		
+	
+	
+	
 # process a single game step
 func tick():
 	#restart tick-clock
 	get_node("Tick_clock").start(tick_length)
 	#generate tiles
 	generate_tiles(get_visible_rect())
-	var player = get_node("Player")
 
 	if in_spiel_modus == spiel_modi.wurzeln:
 		if can_root_move():
@@ -160,7 +175,7 @@ func tick():
 			visual_hp()
 			score_update()
 			resource_yoink()
-			game_over()
+			is_game_over()
 
 	elif in_spiel_modus == spiel_modi.back_wurzeln:
 		
@@ -176,6 +191,10 @@ func tick():
 			player.remaining_current_root_tiles += 1
 			player.move_dir = Vector2(0,0)
 			player.path.pop_back()
+			if player.rock_brakes_used and player.path.size() <= player.rock_brakes_used[-1]:
+				player.rock_brakes_used.pop_back()
+				print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))
+			
 			player.pos_x = player.path[-1][0]
 			player.pos_y = player.path[-1][1]
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
@@ -187,22 +206,35 @@ func tick():
 	speed_increase()
 
 func target_cell_free(pos, dir):
-	return (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1)\
-		and get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0
+	if (get_node("RootGrid").get_cell((pos + dir).x, (pos + dir).y) == -1):
+		if get_node("RO_Grid").get_cell((pos + dir).x, (pos + dir).y) != 0:
+			$Sound_player.play_earth_crunch()
+			return true
+		elif player.get_remaining_rock_brakes() > 0:
+			player.rock_brakes_used.append(player.path.size())
+			$Sound_player.play_stone_crunch()
+			print("remaining rock brakes: " + str(player.max_rock_brakes - player.rock_brakes_used.size()))
+			return true
+	else:
+		$Sound_player.play_donk()
+		return false
 
 # Set a root-tile to the tile that was just left by the player
 func set_player_tile():
-	var player = get_node("Player")
 	var tilemap = get_node("RootGrid")
 	tilemap.set_cell(player.get_last_x(), player.get_last_y(), player.last_tile)
+
+
+func grid_to_world(grid_pos : Vector2):
+	return (grid_pos * tile_size) + Vector2(tile_size / 2, tile_size / 2)
 
 
 # Get a rectangle that describes the currently visible part of the map in
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
-	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.zoom)) / tile_size).floor() - Vector2(1, 1),\
-				 (get_viewport_rect().size * camera.zoom / tile_size).ceil() + Vector2(2,2))
+	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.target_zoom)) / tile_size).floor() - Vector2(1, 1),\
+				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(2,2))
 
 func health():
 	var HUD = get_node("HUD")
@@ -217,7 +249,6 @@ func health():
 
 func visual_hp():
 	var HUD = get_node("HUD")
-	var player = get_node("Player")
 	
 	var HpLabel = get_node("HUD/HpBar")
 	var HpFill = get_node("HUD/HpFill")
@@ -233,7 +264,6 @@ func visual_hp():
 	
 func visual_food():
 	var HUD = get_node("HUD")
-	var player = get_node("Player")
 
 	var FoodLabel = get_node("HUD/FoodBar")
 	var FoodFill = get_node("HUD/FoodFill")
@@ -252,9 +282,9 @@ func score_update():
 	score += 1
 	get_node("HUD/Score").set_text("Score: " + str(score))
 	
+# Sets the sprite of the player (or something)
 func player_char():
 	var sprite = get_node("Player/Sprite")
-	var player = get_node("Player")
 	var rootgrid = get_node("RootGrid")
 	
 	if in_spiel_modus == spiel_modi.back_wurzeln:
@@ -286,7 +316,6 @@ func generate_tiles(vis_rect):
 
 			
 func resource_yoink():
-	var player = get_node("Player")
 	var tilemap = get_node("RO_Grid")
 	var HUD = get_node("HUD")
 	
@@ -295,11 +324,11 @@ func resource_yoink():
 	if tilemap.get_cell(player.pos_x, player.pos_y) == 4:
 		player.remaining_current_root_tiles += 2
 
-func game_over():
+func is_game_over():
 	var HUD = get_node("HUD")
 	
 	if HUD.hp_bar <= 0:
-		get_node("Tick_clock").stop()
+		change_mode(spiel_modi.verloren)
 		
 func speed_increase():
 	if score > 50 and score < 101:
@@ -311,3 +340,4 @@ func speed_increase():
 	elif score > 150:
 		game_speed = 0.85
 		tick_length = 1 - game_speed
+	get_node("Camera2D").set_follow_smoothing(2 * game_speed)

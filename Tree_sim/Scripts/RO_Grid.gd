@@ -18,8 +18,6 @@ func generate_tile(x, y):
 			var sum = 0.0
 			for e in tile_indices:
 				if rando < sum + e[1]:
-					print("generating cluster on " + str(Vector2(x, y)))
-					print("with nn-distance " + str(nn_dist))
 					if e[0] >= 1:
 						generate_cluster(x, y, e[0], cluster_size/3)
 					else:
