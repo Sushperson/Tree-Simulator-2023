@@ -154,6 +154,7 @@ func set_text_kaufen(var nicht:bool=false):
 func kaufen():
 
 	var player = get_node("Player")
+	var tree = get_node("tree")
 	var skill_node = tree.get_skill_node()
 	if skill_node.aktiv == false:
 		if skill_node.kosten_nerstoffe <= player.remaining_current_root_tiles:
