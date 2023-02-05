@@ -97,18 +97,18 @@ func change_mode(mode):
 	
 	if(mode == spiel_modi.back_wurzeln):
 		player.move_dir = Vector2(0,0)
-		
-		var rootgrid = get_node("RootGrid")
-		if player.last_move_dir == Vector2(0,1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 10)
-		elif player.last_move_dir == Vector2(1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 7)
-		elif player.last_move_dir == Vector2(-1,0):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 9)
-		elif player.last_move_dir == Vector2(0,-1):
-			rootgrid.set_cell(player.pos_x, player.pos_y, 8)
+		if(in_spiel_modus == spiel_modi.wurzeln):
+			var rootgrid = get_node("RootGrid")
+			if player.last_move_dir == Vector2(0,1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 10)
+			elif player.last_move_dir == Vector2(1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 7)
+			elif player.last_move_dir == Vector2(-1,0):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 9)
+			elif player.last_move_dir == Vector2(0,-1):
+				rootgrid.set_cell(player.pos_x, player.pos_y, 8)
 			
-	elif(mode == spiel_modi.wurzeln):
+	elif(mode == spiel_modi.wurzeln) and player.path.size() > 2:
 		var grade_v = 0
 		var grade_h = 1
 		var kurve_lo = 2
@@ -136,6 +136,20 @@ func change_mode(mode):
 	
 	in_spiel_modus = mode
 
+
+func kaufen():
+	var tree = get_node("tree")
+	var skill_node = tree.get_skill_node()
+	get_node("HUD/skilltree_text").set_text(skill_node.beschreibungs_text)
+	if skill_node.aktiv == false:
+		if skill_node.kosten_nerstoffe <= player.remaining_current_root_tiles:
+			skill_node.gekauft()
+			player.remaining_current_root_tiles -= skill_node.kosten_nerstoffe
+			if skill_node.type == 1:
+				get_node("Player").max_rock_brakes += 1
+			elif skill_node.type == 2:
+				player.water_usage *= 0.75
+			
 		
 func _process(delta):
 	if Input.is_action_just_pressed("pause"):
@@ -154,7 +168,18 @@ func _process(delta):
 		else:
 			change_mode(save_spiel_modus)
 			change_mode(spiel_modi.wurzeln)
-	speed_increase()
+
+	if in_spiel_modus == spiel_modi.skilltree:
+		if Input.is_action_just_pressed("right"):
+			get_node("tree").gehe_zu_skill(1)
+		elif Input.is_action_just_pressed("down"):
+			get_node("tree").gehe_zu_skill(2)
+		elif Input.is_action_just_pressed("left"):
+			get_node("tree").gehe_zu_skill(3)
+		elif Input.is_action_just_pressed("up"):
+			get_node("tree").gehe_zu_skill(0)
+		elif Input.is_action_just_pressed("ui_accept"):
+			kaufen()
 	
 	
 	
@@ -165,6 +190,7 @@ func tick():
 	get_node("Tick_clock").start(tick_length)
 	#generate tiles
 	generate_tiles(get_visible_rect())
+	speed_increase()
 
 	if in_spiel_modus == spiel_modi.wurzeln:
 		if can_root_move():
@@ -235,15 +261,16 @@ func grid_to_world(grid_pos : Vector2):
 # grid coordinates
 func get_visible_rect():
 	var camera = get_node("Camera2D")
+	var cluster_size = get_node("RO_Grid").cluster_size
 	return Rect2(((camera.position - (get_viewport_rect().size / 2 * camera.target_zoom)) / tile_size).floor() - Vector2(1, 1),\
-				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(2,2))
+				 (get_viewport_rect().size * camera.target_zoom / tile_size).ceil() + Vector2(cluster_size, cluster_size))
 
 func health():
 	var HUD = get_node("HUD")
 	var HpLabel = get_node("HUD/HpBar")
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
-	HUD.hp_bar -= 1
+	HUD.hp_bar -= player.water_usage
 	HpLabel.set_text("HP: " + str(HUD.hp_bar))
 	
 	
