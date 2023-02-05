@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/baum/skillTree/oben6.png" type="Texture" id=1]
 [ext_resource path="res://assets/baum/skillTree/links1.png" type="Texture" id=2]
@@ -21,9 +21,10 @@
 [ext_resource path="res://assets/baum/skillTree/oben_links2.png" type="Texture" id=19]
 [ext_resource path="res://assets/baum/skillTree/oben_links3.png" type="Texture" id=20]
 [ext_resource path="res://assets/baum/skillTree/stamm5.png" type="Texture" id=21]
-[ext_resource path="res://Scenes/skilltree.gd" type="Script" id=22]
+[ext_resource path="res://Scripts/skilltree.gd" type="Script" id=22]
 [ext_resource path="res://assets/baum/skillTree/links5.png" type="Texture" id=23]
 [ext_resource path="res://assets/baum/skillTree/links6.png" type="Texture" id=24]
+[ext_resource path="res://Scenes/skill_point.tscn" type="PackedScene" id=25]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 22 )
@@ -34,121 +35,169 @@ script = ExtResource( 22 )
 
 [node name="Stamm0" type="Sprite" parent="Node/1_stamm"]
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 14 )
 
 [node name="Stamm1" type="Sprite" parent="Node/1_stamm"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 15 )
 
 [node name="Stamm2" type="Sprite" parent="Node/1_stamm"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 16 )
 
 [node name="Stamm3" type="Sprite" parent="Node/1_stamm"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 17 )
 
 [node name="Stamm4" type="Sprite" parent="Node/1_stamm"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 21 )
 
 [node name="2_astLinks" type="Node" parent="Node"]
 
 [node name="Links0" type="Sprite" parent="Node/2_astLinks"]
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 2 )
 
 [node name="Links1" type="Sprite" parent="Node/2_astLinks"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 4 )
 
 [node name="Links2" type="Sprite" parent="Node/2_astLinks"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 5 )
 
 [node name="Links3" type="Sprite" parent="Node/2_astLinks"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 6 )
 
 [node name="Links4" type="Sprite" parent="Node/2_astLinks"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 23 )
 
 [node name="Links5" type="Sprite" parent="Node/2_astLinks"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 24 )
 
 [node name="3_oben" type="Node" parent="Node"]
 
 [node name="Oben0" type="Sprite" parent="Node/3_oben"]
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 13 )
 
 [node name="Oben1" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 9 )
 
 [node name="Oben2" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 10 )
 
 [node name="Oben3" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 11 )
 
 [node name="Oben4" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 12 )
 
 [node name="Oben5" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 3 )
 
 [node name="Oben6" type="Sprite" parent="Node/3_oben"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 1 )
 
 [node name="4_ast_rechts" type="Node" parent="Node"]
 
 [node name="ObenLinks0" type="Sprite" parent="Node/4_ast_rechts"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 18 )
 
 [node name="ObenLinks1" type="Sprite" parent="Node/4_ast_rechts"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 19 )
 
 [node name="ObenLinks2" type="Sprite" parent="Node/4_ast_rechts"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 20 )
 
 [node name="ObenLinks3" type="Sprite" parent="Node/4_ast_rechts"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 7 )
 
 [node name="ObenLinks4" type="Sprite" parent="Node/4_ast_rechts"]
+visible = false
 position = Vector2( -90, -385 )
-z_index = -20
+z_index = -5
 texture = ExtResource( 8 )
+
+[node name="punkte" type="Node" parent="Node"]
+
+[node name="skill_point" parent="Node/punkte" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -8, -27 )
+
+[node name="skill_point01" parent="Node/punkte/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -50, -53 )
+links = true
+
+[node name="skill_point02" parent="Node/punkte/skill_point" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( 4, -90 )
+oben = true
+rechts = true
+
+[node name="skill_point21" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( -15, -118 )
+links = true
+oben = true
+
+[node name="skill_point22" parent="Node/punkte/skill_point/skill_point02" instance=ExtResource( 25 )]
+visible = false
+position = Vector2( 40, -96 )
+rechts = true

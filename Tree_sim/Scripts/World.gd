@@ -69,9 +69,13 @@ func can_root_move():
 func change_mode(mode):
 	
 	if in_spiel_modus == spiel_modi.skilltree and not mode == spiel_modi.skilltree:
+		# verlasse skilltree
+		get_node("tree").skiil_verlassen()
 		get_node("Player/RemoteTransform2D2").update_position = true
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = false
 	elif mode == spiel_modi.skilltree:
+		# gehe in skilltree
+		get_node("tree").skill_tree_aktiv()
 		get_node("Player/RemoteTransform2D2").update_position = false
 		get_node("cam_skilltree").position = get_node("Player").position
 		get_node("cam_skilltree/RemoteTransform2D_skilltree").update_position = true
