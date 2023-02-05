@@ -315,7 +315,7 @@ func visual_hp():
 	
 	HpFill.position.x = hp_bar_pos_x + (HpFill.scale.x / 2)
 	HpFill.position.y = hp_bar_pos_y
-	HpFill.modulate = Color(0.25,0.25,0.9)
+	HpFill.modulate = Color(0,(87.0/255.0),(183.0/255.0))
 	
 func visual_food():
 	var HUD = get_node("HUD")
@@ -330,7 +330,7 @@ func visual_food():
 	
 	FoodFill.position.x = food_bar_pos_x + (FoodFill.scale.x / 2)
 	FoodFill.position.y = food_bar_pos_y
-	FoodFill.modulate = Color(1,0.90,0.05)
+	FoodFill.modulate = Color(1,(215.0/255.0),0)
 	
 	
 func score_update():
