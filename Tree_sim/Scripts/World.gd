@@ -260,7 +260,7 @@ func tick():
 			player.position = Vector2(player.path[-1][0] * tile_size + tile_size/2, player.path[-1][1]* tile_size + tile_size/2)
 	elif in_spiel_modus == spiel_modi.skilltree:
 		set_text_kaufen()
-	get_node("HUD/FoodBar").set_text(str(player.remaining_current_root_tiles))
+	get_node("HUD/FoodBar").set_text("Nährstoffe: " + str(player.remaining_current_root_tiles))
 	
 	player_char()
 	visual_food()
@@ -303,7 +303,7 @@ func health():
 	if HUD.hp_bar > 100:
 		HUD.hp_bar = 100
 	HUD.hp_bar -= player.water_usage
-	HpLabel.set_text("HP: " + str(HUD.hp_bar))
+	HpLabel.set_text("Wasser: " + str(HUD.hp_bar))
 	var remaining_rock_breaks = player.get_remaining_rock_brakes()
 	get_node("HUD/StoneSkill").set_text("Rock Breaks: " + str(remaining_rock_breaks)+"\nPress e: Skilltree")
 	
